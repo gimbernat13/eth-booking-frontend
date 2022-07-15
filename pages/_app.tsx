@@ -10,8 +10,12 @@ import {
   Typography,
   Input,
 } from "@ensdomains/thorin";
+import { useWeb3 } from "../hooks/useWeb3";
+import { useListingContract } from "../hooks/useListingContract";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { provider } = useWeb3();
+  const caca = useListingContract();
   return (
     <ThemeProvider theme={darkTheme}>
       <ThorinGlobalStyles />
