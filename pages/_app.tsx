@@ -13,10 +13,10 @@ import {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <ThorinGlobalStyles />
       <div className="nav">
-        <div>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <Heading color="blue">Decentralized Travel</Heading>
           <Input
             hideLabel

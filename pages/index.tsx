@@ -18,6 +18,10 @@ const Home: NextPage = () => {
         <ListingCard></ListingCard>
         <ListingCard></ListingCard>
         <ListingCard></ListingCard>
+        <ListingCard></ListingCard>
+        <ListingCard></ListingCard>
+        <ListingCard></ListingCard>
+        <ListingCard></ListingCard>
       </StyledListingCardGrid>
 
       {/* <Typography>The new way to travel, bitches love it...</Typography> */}
