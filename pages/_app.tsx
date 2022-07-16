@@ -10,12 +10,11 @@ import {
   Typography,
   Input,
 } from "@ensdomains/thorin";
-import { useWeb3 } from "../hooks/useWeb3";
-import { useListingContract } from "../hooks/useListingContract";
 
+import React from "react";
+import { useWeb3 } from "../hooks/useWeb3";
 function MyApp({ Component, pageProps }: AppProps) {
-  const { provider } = useWeb3();
-  const caca = useListingContract();
+  const { currentAccount, onClickConnect, onClickDisconnect ,} = useWeb3();
   return (
     <ThemeProvider theme={darkTheme}>
       <ThorinGlobalStyles />
@@ -31,9 +30,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
 
         <Profile
-          address="0xb6e040c9ecaae172a89bd561c5f73e1c48d28cd9"
-          ensName="diego.eth"
+          onClick={currentAccount ? onClickDisconnect : onClickConnect}
+          address={currentAccount}
+          ensName={currentAccount ? "Diego" : "Log In"}
         />
+     
       </div>
       <Component {...pageProps} />
     </ThemeProvider>

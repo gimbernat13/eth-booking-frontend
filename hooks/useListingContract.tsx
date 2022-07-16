@@ -1,27 +1,55 @@
-import React from "react";
-import { ethers } from "ethers";
-import listingAbi from "../../artifacts/contracts/Appointment.sol";
-import { useWeb3 } from "./useWeb3";
-const LISTING_ABI = require("../eth/Listing.json");
+// src/components/ReadERC20.tsx
+import React, {useEffect, useState } from 'react';
+import {Text} from '@chakra-ui/react'
+import {ERC20ABI as abi} from 'abi/ERC20ABI'
+import {ethers} from 'ethers'
 
-type Props = {};
+interface Props {
+    addressContract: string,
+    currentAccount: string | undefined
+}
 
-export const useListingContract = () => {
-  // const MyContract = await ethers.getContractFactory("Listing");
-  // const contract = await MyContract.attach(
-  //   "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512" // The deployed contract address
-  // );
+declare let window: any;
 
-  // Now you can call functions of the contract
+export default function ReadERC20(props:Props){
+  const addressContract = props.addressContract
+  const currentAccount = props.currentAccount
+  const [totalSupply,setTotalSupply]=useState<string>()
+  const [symbol,setSymbol]= useState<string>("")
 
-  // You can also use an ENS name for the contract address
-  const daiAddress = "dai.tokens.ethers.eth";
-  const { provider } = useWeb3();
-  // The Contract object
-  const contract = new ethers.Contract(
-    "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    LISTING_ABI,
-    provider
-  );
-  return contract;
-};
+  const shitAbi = [
+    // Some details about the token
+    "function getAllReservations() view returns (uint256[])",
+  ];
+  
+
+  useEffect( () => {
+    if(!window.ethereum) return
+
+
+
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const listingContract = new ethers.Contract(
+      "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      shitAbi,
+      provider
+    );
+    
+
+    const getReservations = async () => {
+      const response = await listingContract.getAllReservations();
+      console.log()
+  
+    }
+    getReservations()
+  
+    //called only once
+  },[])  
+
+  
+
+  return (
+  ""
+  )
+}
