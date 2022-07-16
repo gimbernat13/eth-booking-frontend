@@ -1,14 +1,15 @@
-import { Button, Card, Heading, Profile, Typography } from "@ensdomains/thorin";
+
 import { ethers } from "ethers";
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ListingCard } from "../components/ListingCard/ListingCard";
 import { useWeb3 } from "../hooks/useWeb3";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
+
 declare let window: any;
+
 const StyledListingCardGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -16,52 +17,64 @@ const StyledListingCardGrid = styled.div`
 const Home: NextPage = () => {
   const { provider } = useWeb3();
   const [reservations, setReservations] = React.useState<any>();
+  const [listings, setListings] = React.useState<any>();
 
   console.log("reservations ", reservations && reservations);
-  const shitAbi = [
+
+  const LISTING_FACTORY_ABI = [
     // Some details about the token
-    "function getAllReservations() view returns (uint256[])",
-    "function checkAvailability(uint256) public view returns (bool)",
+    "function getDeployedListings() view returns (address[])",
+    "function createListing(uint, string , string)",
   ];
 
   useEffect(() => {
     if (!window.ethereum) return;
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const listingContract = new ethers.Contract(
-      "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      shitAbi,
+  
+    const listingFactoryContract = new ethers.Contract(
+      "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      LISTING_FACTORY_ABI,
       provider
     );
 
-    const getReservations = async () => {
-      const response = await listingContract.getAllReservations();
-      setReservations(response);
-      console.log("contracft ", listingContract);
-      console.log("response", response);
+    const getListings = async () => {
+      const response = await listingFactoryContract.getDeployedListings();
+      setListings(response);
+      console.log("listings ", response);
     };
-    getReservations();
+    getListings();
 
-    //called only once
+    const createListing = async () => {
+      const response = await listingFactoryContract.createListing(
+        "Putas Locas en Baja",
+        33,
+        "Está perron compadre..."
+      );
+      console.log("listings ", response);
+    };
   }, []);
 
   return (
     <div className={styles.container}>
       <StyledListingCardGrid>
-        {reservations &&
-          reservations.map((reservation: any) => {
-           return  <ListingCard />;
+        {listings &&
+          listings.map((listing: any) => {
+            return (
+              <Link key={listing} href={`/listings/${listing}`}>
+                <div>
+                  <ListingCard address={listing} />
+                </div>
+              </Link>
+            );
           })}
       </StyledListingCardGrid>
 
-      {/* <Typography>The new way to travel, bitches love it...</Typography> */}
+      <br />
 
-      {/* <Button variant="action">Action</Button>
+      
 
-      <Card>
-        <Heading>Hello World</Heading>
-        <Typography>The quick brown fox…</Typography>
-      </Card> */}
+    
     </div>
   );
 };

@@ -1,8 +1,7 @@
-import { Typography } from "@ensdomains/thorin";
 import React from "react";
 import styled from "styled-components";
 import house from "./house.webp";
-type Props = {};
+import { Text } from '@chakra-ui/react'
 const StyledListingCardGrid = styled.div`
   display: grid;
 `;
@@ -27,21 +26,23 @@ const StyledListingCardImage = styled.div`
   &:hover {
   }
 `;
-
-export const ListingCard = (props: Props) => {
+type Props = { address: string };
+export const ListingCard = ({ address }: Props) => {
   return (
     <StyledListingCard>
       <StyledListingCardImage></StyledListingCardImage>
-      <Typography size="small" weight="semibold">
+      <Text>
         Casa para negros
-      </Typography>
-      <Typography size="small" weight="light">
+      </Text>
+      <Text >
         A 782km de Distancia
-      </Typography>
-      <Typography size="small" weight="light">
+      </Text>
+      <Text >
         October 1st to October 19th
-      </Typography>
-      <Typography size="small">756MXN / Night</Typography>
+      </Text>
+      <Text >756MXN / Night</Text>
+      <Text >{address}</Text>
+
     </StyledListingCard>
   );
 };
