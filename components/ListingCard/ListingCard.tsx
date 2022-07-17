@@ -1,48 +1,88 @@
 import React from "react";
 import styled from "styled-components";
 import house from "./house.webp";
-import { Text } from '@chakra-ui/react'
-const StyledListingCardGrid = styled.div`
-  display: grid;
-`;
-const StyledListingCard = styled.div`
-  font-size: 1.2em;
-  border-radius: 1rem;
-  padding: 1rem;
-  transition: all 0.2s;
+import {
+  Text,
+  Wrap,
+  WrapItem,
+  Divider,
+  Center,
+  Badge,
+  Heading,
+  Button,
+  ButtonGroup,
+  Stack,
+} from "@chakra-ui/react";
+import Image from "next/image";
 
-  &:hover {
-    transform: translateY(-1px);
-  }
-`;
-const StyledListingCardImage = styled.div`
-  border-radius: 1rem;
-  height: 300px;
-  width: 300px;
-  background-color: #ff00004a;
-  background-size: cover;
-  background-image: url(https://amazingarchitecture.com/storage/files/1/architecture-firms/houses-tulum/caplan-house/01-caplan-house-houses-tulum-israel-pacheco.jpg);
-
-  &:hover {
-  }
-`;
 type Props = { address: string };
-export const ListingCard = ({ address }: Props) => {
-  return (
-    <StyledListingCard>
-      <StyledListingCardImage></StyledListingCardImage>
-      <Text>
-        Casa para negros
-      </Text>
-      <Text >
-        A 782km de Distancia
-      </Text>
-      <Text >
-        October 1st to October 19th
-      </Text>
-      <Text >756MXN / Night</Text>
-      <Text >{address}</Text>
+export function ListingCard({ address }: Props) {
+  const property = {
+    imageUrl: "https://bit.ly/2Z4KKcF",
+    imageAlt: "Rear view of modern home with pool",
+    beds: 3,
+    baths: 2,
+    title: "Modern home in city center in the heart of historic Los Angeles",
+    formattedPrice: "$1,900.00",
+    reviewCount: 34,
+    rating: 4,
+  };
 
-    </StyledListingCard>
+  return (
+    <Wrap cursor={"pointer"} borderRadius="lg">
+      <img
+        style={{ width: "100%", height: "300px" }}
+        src="https://a0.muscache.com/im/pictures/41ad184a-fdee-4158-afa9-f971e0763ed1.jpg?im_w=1440"
+      />
+
+      <Wrap display="flex" alignItems="baseline">
+        <Badge borderRadius="full" px="2" colorScheme="teal">
+          New
+        </Badge>
+        <Wrap
+          color="gray.500"
+          fontWeight="semibold"
+          letterSpacing="wide"
+          fontSize="xs"
+          textTransform="uppercase"
+          ml="2"
+        >
+          <WrapItem>
+            {property.beds} beds &bull; {property.baths} baths
+          </WrapItem>
+        </Wrap>
+      </Wrap>
+
+      <Wrap
+        mt="1"
+        fontWeight="semibold"
+        as="h4"
+        lineHeight="tight"
+        noOfLines={1}
+      >
+        <WrapItem>{property.title}</WrapItem>
+      </Wrap>
+
+      <Wrap>
+        <WrapItem>{property.formattedPrice}</WrapItem>
+        <Wrap as="span" color="gray.600" fontSize="sm">
+          <WrapItem>/ wk</WrapItem>
+        </Wrap>
+      </Wrap>
+
+      <Wrap display="flex" mt="2" alignItems="center">
+        {/* {Array(5)
+            .fill("")
+            .map((_, i) => (
+              <StarIcon
+                key={i}
+                color={i < property.rating ? "teal.500" : "gray.300"}
+              />
+            ))} */}
+        <Wrap as="span" ml="2" color="gray.600" fontSize="sm">
+          <WrapItem> {property.reviewCount} reviews</WrapItem>
+        </Wrap>
+      </Wrap>
+    </Wrap>
   );
-};
+}

@@ -2,7 +2,19 @@ import { ethers } from "ethers";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import styles from "../../styles/Home.module.css";
-import { Text, Wrap, WrapItem, Divider, Center } from "@chakra-ui/react";
+import {
+  Text,
+  Wrap,
+  WrapItem,
+  Divider,
+  Center,
+  Box,
+  Badge,
+  Heading,
+  Button,
+  ButtonGroup,
+  Stack,
+} from "@chakra-ui/react";
 
 import pool from "../../assets/img/swimming-pool.png";
 import study from "../../assets/img/study.png";
@@ -14,6 +26,7 @@ const StyledInfoGrid = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   align-items: center;
+  gap: 5rem;
 `;
 const StyledPhotoGrid = styled.div`
   display: grid;
@@ -69,7 +82,7 @@ const StyledFlexProfile = styled.div`
 
 const StyledFlexFeature = styled.div`
   display: grid;
-  grid-template-columns: auto  1fr;
+  grid-template-columns: auto 1fr;
   align-items: center;
   margin: 1rem 0;
   p {
@@ -80,6 +93,7 @@ const StyledFlexFeature = styled.div`
 const LISTING_ABI = [
   // Some details about the token
   "function getAllReservations() view returns (uint256[])",
+  "function getListingData() view returns (string, string, uint256)",
   "function checkAvailability(uint256) public view returns (bool)",
 ];
 
@@ -102,12 +116,18 @@ const Listing = (props: Props) => {
       console.log("contracft ", listingContract);
       console.log("response", response);
     };
-    getReservations();
+    const getListingData = async () => {
+      const response = await listingContract.getListingData();
+
+      console.log("response", response);
+    };
+    // getListingData();
+    // getReservations();
   }, []);
 
   return (
     <div className={styles.container}>
-      <Text as={"h1"}>Casa Perrax</Text>
+      <Heading>Casa Perrax</Heading>
 
       <StyledPhotoGrid>
         <StyledLargePhoto></StyledLargePhoto>
@@ -123,7 +143,9 @@ const Listing = (props: Props) => {
           <StyledFlexProfile>
             <div>
               <Text as={"h2"}>Host: El Cara de Verga</Text>
-              <Text>4 Guests - 1 Room - 2 Beds - Free Marijuana</Text>
+              <Text fontWeight={"500"}>
+                4 Guests - 1 Room - 2 Beds - Free Marijuana
+              </Text>
             </div>
             <img
               style={{ borderRadius: "50%", height: "70px" }}
@@ -143,11 +165,14 @@ const Listing = (props: Props) => {
             <Wrap>
               <div>
                 <WrapItem>
-                  <Text>Chimney</Text>
+                  <Text fontWeight={"500"}>Chimney</Text>
                 </WrapItem>
                 <WrapItem>
-                  <Text fontWeight={"300"} fontSize={"14px"}>
-                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero animi maxime, sint voluptatibus illum consequatur, itaque incidunt optio, saepe inventore magni quas natus sapiente ad dignissimos accusamus quae eaque reiciendis.
+                  <Text fontWeight={"400"} fontSize={"14px"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Libero animi maxime, sint voluptatibus illum consequatur,
+                    itaque incidunt optio, saepe inventore magni quas natus
+                    sapiente ad dignissimos accusamus quae eaque reiciendis.
                   </Text>
                 </WrapItem>
               </div>
@@ -165,10 +190,10 @@ const Listing = (props: Props) => {
             <Wrap>
               <div>
                 <WrapItem>
-                  <Text>A place to do Crack Cocaine</Text>
+                  <Text fontWeight={"500"}>A place to do Crack Cocaine</Text>
                 </WrapItem>
                 <WrapItem>
-                  <Text fontWeight={"300"} fontSize={"14px"}>
+                  <Text fontWeight={"400"} fontSize={"14px"}>
                     Niggaz be lovin' this shit{" "}
                   </Text>
                 </WrapItem>
@@ -186,10 +211,10 @@ const Listing = (props: Props) => {
             <Wrap>
               <div>
                 <WrapItem>
-                  <Text>Chimney</Text>
+                  <Text fontWeight={"500"}>Chimney</Text>
                 </WrapItem>
                 <WrapItem>
-                  <Text fontWeight={"300"} fontSize={"14px"}>
+                  <Text fontWeight={"400"} fontSize={"14px"}>
                     Niggaz be lovin' this shit{" "}
                   </Text>
                 </WrapItem>
@@ -197,7 +222,40 @@ const Listing = (props: Props) => {
             </Wrap>
           </StyledFlexFeature>
         </div>
-        <div className="right"></div>
+
+        <div className="right">
+          <Box
+            p="6"
+            maxW="sm"
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+          >
+            <Wrap>
+              <div>
+                <WrapItem>
+                  <Text fontWeight={"600"}>$33 Per Night</Text>
+                </WrapItem>
+                <WrapItem>
+                  <Text fontWeight={"400"} fontSize={"14px"}>
+                    Niggaz be lovin' this shit{" "}
+                  </Text>
+                </WrapItem>
+
+                <Button
+                  width={"100%"}
+                  // isLoading
+                  loadingText="Submitting"
+                  colorScheme="purple"
+                  variant="outline"
+                >
+                  Submit
+                </Button>
+              </div>
+            </Wrap>
+          </Box>
+        </div>
       </StyledInfoGrid>
     </div>
   );
