@@ -32,12 +32,8 @@ const MainGrid = styled.div`
   grid-template-columns: auto; */
 `;
 const Home: NextPage = () => {
-  // const [provider, setProvider] = React.useState<any>();
-
-  const [reservations, setReservations] = React.useState<any>();
+  const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();
-
-  console.log("reservations ", reservations && reservations);
 
   const LISTING_FACTORY_ABI = [
     // Some details about the token
@@ -50,29 +46,59 @@ const Home: NextPage = () => {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    // setProvider(provider);
+    setProvider(provider);
     const listingFactoryContract = new ethers.Contract(
-      "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       LISTING_FACTORY_ABI,
       provider
     );
 
+
     const getListings = async () => {
-      const response = await listingFactoryContract.getDeployedListings();
-      setListings(response);
-      console.log("listings ", response);
+      try {
+        const response = await listingFactoryContract.getDeployedListings();
+        setListings(response);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getListings();
 
     const createListing = async () => {
       const response = await listingFactoryContract.createListing(
         "Putas Locas en Baja",
-        33,
-        "Está perron compadre..."
+        "Está perron compadre...",
+        33
       );
       console.log("listings ", response);
     };
   }, []);
+  const signer = provider && provider.getSigner();
+
+  const listingFactoryContract = new ethers.Contract(
+    "0x818283C38087BEF95840d2E819F85a4B7f805C9A",
+    LISTING_FACTORY_ABI,
+    provider,
+    signer
+  );
+
+
+  const listingFactoryContractWithSigner =
+    listingFactoryContract.connect(signer);
+
+  const createListing = async () => {
+    try {
+      const response = await listingFactoryContractWithSigner.createListing(
+        3333,
+        "Putas Locas en Baja",
+        "Está perron compadre...",
+        { gasLimit: 210000 }
+      );
+      console.log("res", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -91,7 +117,7 @@ const Home: NextPage = () => {
             })}
         </StyledListingCardGrid>
         <br />
-        {/* <CreateListingForm submit={createListing} /> */}
+        <CreateListingForm submit={createListing} />
       </MainGrid>
 
       <br />
