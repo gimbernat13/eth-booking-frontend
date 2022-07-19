@@ -30,10 +30,12 @@ export function ListingCard({ address }: Props) {
 
   return (
     <Wrap cursor={"pointer"} borderRadius="lg">
-      <img
-        style={{ width: "100%", height: "300px" }}
-        src="https://a0.muscache.com/im/pictures/41ad184a-fdee-4158-afa9-f971e0763ed1.jpg?im_w=1440"
-      />
+      {/* <Image
+        width="100%"
+        height="300px"
+        alt="niggaz"
+        src="https://as1440"
+      /> */}
 
       <Wrap display="flex" alignItems="baseline">
         <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -81,6 +83,9 @@ export function ListingCard({ address }: Props) {
             ))} */}
         <Wrap as="span" ml="2" color="gray.600" fontSize="sm">
           <WrapItem> {property.reviewCount} reviews</WrapItem>
+        </Wrap>
+        <Wrap as="div" ml="2" color="gray.600" fontSize="sm">
+          <WrapItem> {address} </WrapItem>
         </Wrap>
       </Wrap>
     </Wrap>

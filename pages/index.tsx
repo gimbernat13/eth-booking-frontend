@@ -37,67 +37,54 @@ const Home: NextPage = () => {
 
   const LISTING_FACTORY_ABI = [
     // Some details about the token
-    "function getDeployedListings() view returns (address[])",
+    "function getListings() view returns (address[])",
     "function createListing(uint, string , string)",
   ];
 
   useEffect(() => {
-    if (!window.ethereum) return;
+    listingFactoryMethods.getListings()
+  }, []);
 
+
+  async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-    setProvider(provider);
-    const listingFactoryContract = new ethers.Contract(
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
       "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       LISTING_FACTORY_ABI,
       provider
     );
+    return contract;
+  }
 
-
-    const getListings = async () => {
-      try {
-        const response = await listingFactoryContract.getDeployedListings();
-        setListings(response);
-      } catch (error) {
-        console.log(error);
+  // =============== LISTING ==================================
+  const listingFactoryMethods = {
+    async getListings() {
+   
+      if (typeof window.ethereum !== "undefined") {
+        console.log(window.ethereum)
+        const contract = await initListingFactory();
+        console.log("contract " , contract);
+        try {
+          console.log("fetching listings", await contract.getListings());
+          const response = await contract.getListings();
+          setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    };
-    getListings();
-
-    const createListing = async () => {
-      const response = await listingFactoryContract.createListing(
-        "Putas Locas en Baja",
-        "Está perron compadre...",
-        33
-      );
-      console.log("listings ", response);
-    };
-  }, []);
-  const signer = provider && provider.getSigner();
-
-  const listingFactoryContract = new ethers.Contract(
-    "0x818283C38087BEF95840d2E819F85a4B7f805C9A",
-    LISTING_FACTORY_ABI,
-    provider,
-    signer
-  );
-
-
-  const listingFactoryContractWithSigner =
-    listingFactoryContract.connect(signer);
-
-  const createListing = async () => {
-    try {
-      const response = await listingFactoryContractWithSigner.createListing(
-        3333,
-        "Putas Locas en Baja",
-        "Está perron compadre...",
-        { gasLimit: 210000 }
-      );
-      console.log("res", response);
-    } catch (error) {
-      console.log(error);
-    }
+    },
+    async createListing(_title: string, _description: string, _costPerDay : number) {
+      if (typeof window.ethereum !== "undefined") {
+        const contract = await initListingFactory();
+        try {
+          console.log("creating listing");
+          await contract.createListing(_title, _description, _costPerDay);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   };
 
   return (
@@ -117,7 +104,7 @@ const Home: NextPage = () => {
             })}
         </StyledListingCardGrid>
         <br />
-        <CreateListingForm submit={createListing} />
+        <CreateListingForm submit={listingFactoryMethods.createListing} />
       </MainGrid>
 
       <br />
