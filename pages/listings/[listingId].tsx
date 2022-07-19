@@ -113,16 +113,16 @@ const Listing = (props: Props) => {
     const getReservations = async () => {
       const response = await listingContract.getAllReservations();
       setReservations(response);
-      console.log("contracft ", listingContract);
       console.log("response", response);
     };
     const getListingData = async () => {
+      console.log("fetching")
       const response = await listingContract.getListingData();
 
       console.log("response", response);
     };
-    // getListingData();
-    // getReservations();
+    getListingData();
+    getReservations();
   }, []);
 
   return (
