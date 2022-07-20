@@ -21,6 +21,7 @@ import study from "../../assets/img/study.png";
 import chimney from "../../assets/img/chimney.png";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 type Props = {};
 const StyledInfoGrid = styled.div`
   display: grid;
@@ -101,34 +102,62 @@ declare let window: any;
 
 const Listing = (props: Props) => {
   const [reservations, setReservations] = React.useState<any>();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!window.ethereum) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const listingContract = new ethers.Contract(
-      "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      LISTING_ABI,
-      provider
-    );
-    const getReservations = async () => {
-      const response = await listingContract.getAllReservations();
-      setReservations(response);
-      console.log("response", response);
-    };
-    const getListingData = async () => {
-      console.log("fetching")
-      const response = await listingContract.getListingData();
-
-      console.log("response", response);
-    };
-    getListingData();
-    getReservations();
+    listingFactoryMethods.getListingData();
   }, []);
+
+  // FIXME: ABSTRACT TO HOOK
+  async function initListingFactory() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      // router.query.toString(),
+      LISTING_ABI,
+      signer
+    );
+    return contract;
+  }
+
+  // =============== LISTING ==================================
+  const listingFactoryMethods = {
+    async getListingData() {
+      if (typeof window.ethereum !== "undefined") {
+        console.log(window.ethereum);
+        const contract = await initListingFactory();
+        try {
+          const response = await contract.getListingData();
+          console.log("[Listing Data ]", response);
+          // setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    async getListings() {
+      if (typeof window.ethereum !== "undefined") {
+        console.log(window.ethereum);
+        const contract = await initListingFactory();
+        console.log("contract ", contract);
+        try {
+          console.log("fetching listings", await contract.getListingData());
+          const response = await contract.getListings();
+          // setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+  };
 
   return (
     <div className={styles.container}>
       <Heading>Casa Perrax</Heading>
-
+      <button onClick={listingFactoryMethods.getListingData}>
+        fetch shit{" "}
+      </button>
       <StyledPhotoGrid>
         <StyledLargePhoto></StyledLargePhoto>
         <StyledPhoto></StyledPhoto>

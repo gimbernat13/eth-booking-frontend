@@ -34,7 +34,7 @@ const MainGrid = styled.div`
 const Home: NextPage = () => {
   const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();
-
+  const { currentAccount } = useWeb3();
   const LISTING_FACTORY_ABI = [
     // Some details about the token
     "function getListings() view returns (address[])",
@@ -42,13 +42,15 @@ const Home: NextPage = () => {
   ];
 
   useEffect(() => {
-    listingFactoryMethods.getListings()
+    listingFactoryMethods.getListings();
   }, []);
 
-
+  // FIXME: ABSTRACT TO HOOK
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
+    console.log(currentAccount);
     const signer = provider.getSigner();
+
     const contract = new ethers.Contract(
       "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       LISTING_FACTORY_ABI,
@@ -60,11 +62,8 @@ const Home: NextPage = () => {
   // =============== LISTING ==================================
   const listingFactoryMethods = {
     async getListings() {
-   
       if (typeof window.ethereum !== "undefined") {
-        console.log(window.ethereum)
         const contract = await initListingFactory();
-        console.log("contract " , contract);
         try {
           console.log("fetching listings", await contract.getListings());
           const response = await contract.getListings();
@@ -74,22 +73,34 @@ const Home: NextPage = () => {
         }
       }
     },
-    async createListing(_title: string, _description: string, _costPerDay : number) {
+
+    async createListing() {
+      // const iface = new ethers.utils.Interface(LISTING_ABI);
+
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
         try {
-          console.log("creating listing");
-          await contract.createListing(_title, _description, _costPerDay);
+          const response = await contract.createListing(
+            "333",
+            "niggas on a roll ",
+            666
+          );
+          console.log("response ", response);
         } catch (error) {
           console.log(error);
         }
       }
     },
   };
+  const { onClickConnect } = useWeb3();
+  console.log(currentAccount)
 
   return (
     <div className={styles.container}>
       <Text as="h3">Close to your location: </Text>
+      <Heading> {currentAccount} </Heading>
+
+      <Heading onClick={onClickConnect}> Bitch </Heading>
       <MainGrid>
         <StyledListingCardGrid>
           {listings &&

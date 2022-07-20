@@ -29,6 +29,7 @@ export const useWeb3 = () => {
   },[currentAccount])
 
   const onClickConnect = () => {
+    console.log("conencting")
     //client side code
     if(!window.ethereum) {
       console.log("please install MetaMask")
@@ -37,7 +38,7 @@ export const useWeb3 = () => {
    
     //we can do it using ethers.js
     const provider = new ethers.providers.Web3Provider(window.ethereum)
-
+    console.log(currentAccount)
     // MetaMask requires requesting permission to connect users accounts
     provider.send("eth_requestAccounts", [])
     .then((accounts)=>{
