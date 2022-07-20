@@ -20,7 +20,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { CreateListingForm } from "../components/atomic/organisms/CreateListingForm/CreateListingForm";
-
+import Contract from "../eth/Contract.json";
 declare let window: any;
 
 const StyledListingCardGrid = styled.div`
@@ -41,6 +41,8 @@ const Home: NextPage = () => {
     "function createListing(uint, string , string)",
   ];
 
+ 
+
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
@@ -48,13 +50,12 @@ const Home: NextPage = () => {
   // FIXME: ABSTRACT TO HOOK
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log(currentAccount);
     const signer = provider.getSigner();
 
     const contract = new ethers.Contract(
-      "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      LISTING_FACTORY_ABI,
-      provider
+      Contract.address,
+      Contract.abi,
+      signer
     );
     return contract;
   }
@@ -93,14 +94,10 @@ const Home: NextPage = () => {
     },
   };
   const { onClickConnect } = useWeb3();
-  console.log(currentAccount)
-
   return (
     <div className={styles.container}>
       <Text as="h3">Close to your location: </Text>
       <Heading> {currentAccount} </Heading>
-
-      <Heading onClick={onClickConnect}> Bitch </Heading>
       <MainGrid>
         <StyledListingCardGrid>
           {listings &&
