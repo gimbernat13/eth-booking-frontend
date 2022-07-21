@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import styles from "../../styles/Home.module.css";
@@ -104,7 +104,9 @@ const Listing = (props: Props) => {
 
   useEffect(() => {
     listingFactoryMethods.getListingData();
+    listingFactoryMethods.getReservations();
   }, []);
+
   // FIXME: ABSTRACT TO HOOK
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -133,11 +135,27 @@ const Listing = (props: Props) => {
         }
       }
     },
+    async getReservations() {
+      if (typeof window.ethereum !== "undefined") {
+        const contract = await initListingFactory();
+        try {
+          const response = await contract.getAllReservations();
+          const mappedShit = response.map((res) => {
+            return ethers.BigNumber.from(res).toNumber();
+          });
+          console.log("[Listing Reservations ]", mappedShit);
+
+          setReservations(mappedShit);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   };
 
   return (
     <div className={styles.container}>
-      <Heading>{listingData[1]}</Heading>
+      <Heading>{listingData && listingData[1]}</Heading>
       <StyledPhotoGrid>
         <StyledLargePhoto></StyledLargePhoto>
         <StyledPhoto></StyledPhoto>
@@ -149,6 +167,10 @@ const Listing = (props: Props) => {
 
       <StyledInfoGrid>
         <div>
+          {reservations.map((res) => (
+            <div key={res}>{res}</div>
+          ))}
+
           <StyledFlexProfile>
             <div>
               <Text as={"h2"}>Host: El Cara de Verga</Text>
