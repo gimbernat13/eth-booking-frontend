@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ListingCard } from "../components/ListingCard/ListingCard";
-import { useWeb3 } from "../hooks/useWeb3";
+// import { useWeb3 } from "../hooks/useWeb3";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import {
@@ -20,7 +20,10 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { CreateListingForm } from "../components/atomic/organisms/CreateListingForm/CreateListingForm";
-import Contract from "../eth/Contract.json";
+
+import listingFactory from "../eth/Contract.json";
+import { useContract } from "../hooks/useContract";
+
 declare let window: any;
 
 const StyledListingCardGrid = styled.div`
@@ -34,15 +37,9 @@ const MainGrid = styled.div`
 const Home: NextPage = () => {
   const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();
-  const { currentAccount } = useWeb3();
-  const LISTING_FACTORY_ABI = [
-    // Some details about the token
-    "function getListings() view returns (address[])",
-    "function createListing(uint, string , string)",
-  ];
 
- 
-
+  
+  
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
@@ -51,12 +48,10 @@ const Home: NextPage = () => {
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    const contract = useContract(listingFactory.address , listingFactory.abi , provider, signer)
 
-    const contract = new ethers.Contract(
-      Contract.address,
-      Contract.abi,
-      signer
-    );
+
+
     return contract;
   }
 
@@ -93,11 +88,10 @@ const Home: NextPage = () => {
       }
     },
   };
-  const { onClickConnect } = useWeb3();
   return (
     <div className={styles.container}>
       <Text as="h3">Close to your location: </Text>
-      <Heading> {currentAccount} </Heading>
+
       <MainGrid>
         <StyledListingCardGrid>
           {listings &&
