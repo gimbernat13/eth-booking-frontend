@@ -19,9 +19,11 @@ import {
 import pool from "../../assets/img/swimming-pool.png";
 import study from "../../assets/img/study.png";
 import chimney from "../../assets/img/chimney.png";
+import listingContract from "../../eth/ListingContract.json";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useContract } from "../../hooks/useContract";
 type Props = {};
 const StyledInfoGrid = styled.div`
   display: grid;
@@ -91,33 +93,29 @@ const StyledFlexFeature = styled.div`
   }
 `;
 
-const LISTING_ABI = [
-  // Some details about the token
-  "function getAllReservations() view returns (uint256[])",
-  "function getListingData() view returns (string, string, uint256)",
-  "function checkAvailability(uint256) public view returns (bool)",
-];
-
 declare let window: any;
 
 const Listing = (props: Props) => {
   const [reservations, setReservations] = React.useState<any>();
+  const [listingData, setListingData] = React.useState<any>();
+
   const router = useRouter();
+  console.log("---router--- , router", router.query.listingId);
 
   useEffect(() => {
     listingFactoryMethods.getListingData();
   }, []);
-
   // FIXME: ABSTRACT TO HOOK
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-      // router.query.toString(),
-      LISTING_ABI,
+    const contract = useContract(
+      router.query.listingId.toString(),
+      listingContract.abi,
+      provider,
       signer
     );
+
     return contract;
   }
 
@@ -125,26 +123,11 @@ const Listing = (props: Props) => {
   const listingFactoryMethods = {
     async getListingData() {
       if (typeof window.ethereum !== "undefined") {
-        console.log(window.ethereum);
         const contract = await initListingFactory();
         try {
           const response = await contract.getListingData();
           console.log("[Listing Data ]", response);
-          // setListings(response);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-    async getListings() {
-      if (typeof window.ethereum !== "undefined") {
-        console.log(window.ethereum);
-        const contract = await initListingFactory();
-        console.log("contract ", contract);
-        try {
-          console.log("fetching listings", await contract.getListingData());
-          const response = await contract.getListings();
-          // setListings(response);
+          setListingData(response);
         } catch (error) {
           console.log(error);
         }
@@ -154,11 +137,7 @@ const Listing = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      
-      <Heading>Casa Perrax</Heading>
-      <button onClick={listingFactoryMethods.getListingData}>
-        fetch shit{" "}
-      </button>
+      <Heading>{listingData[1]}</Heading>
       <StyledPhotoGrid>
         <StyledLargePhoto></StyledLargePhoto>
         <StyledPhoto></StyledPhoto>
@@ -224,7 +203,7 @@ const Listing = (props: Props) => {
                 </WrapItem>
                 <WrapItem>
                   <Text fontWeight={"400"} fontSize={"14px"}>
-                    Niggaz be lovin' this shit{" "}
+                    Niggaz be lovin this shit
                   </Text>
                 </WrapItem>
               </div>
@@ -245,7 +224,7 @@ const Listing = (props: Props) => {
                 </WrapItem>
                 <WrapItem>
                   <Text fontWeight={"400"} fontSize={"14px"}>
-                    Niggaz be lovin' this shit{" "}
+                    Niggaz be lovin this shit{" "}
                   </Text>
                 </WrapItem>
               </div>
@@ -269,7 +248,7 @@ const Listing = (props: Props) => {
                 </WrapItem>
                 <WrapItem>
                   <Text fontWeight={"400"} fontSize={"14px"}>
-                    Niggaz be lovin' this shit{" "}
+                    Niggaz be lovin this shit{" "}
                   </Text>
                 </WrapItem>
 
