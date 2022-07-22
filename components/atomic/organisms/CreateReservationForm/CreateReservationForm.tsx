@@ -1,6 +1,7 @@
 import { Wrap, WrapItem, Button, Text, Box, Input } from "@chakra-ui/react";
 import {} from "framer-motion";
 import React from "react";
+import { DateTimePicker } from "../../molecules/DateTimePicker/DateTime";
 
 type Props = {
   submit: () => void;
@@ -14,6 +15,7 @@ export const CreateReservationForm = ({ submit }: Props) => {
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
+      background={"white"}
       boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
     >
       <Wrap>
@@ -21,14 +23,13 @@ export const CreateReservationForm = ({ submit }: Props) => {
           <WrapItem>
             <Text fontWeight={"600"}>$33 Per Night</Text>
           </WrapItem>
-          <WrapItem>
-            <Input></Input>
-          </WrapItem>
+          <WrapItem></WrapItem>
           <WrapItem>
             <Text fontWeight={"400"} fontSize={"14px"}>
               Niggaz be lovin this shit{" "}
             </Text>
           </WrapItem>
+          <DateTimePicker />
 
           <Button
             onClick={submit}

@@ -18,11 +18,13 @@ import {
   Button,
   ButtonGroup,
   Stack,
+  Spacer,
 } from "@chakra-ui/react";
-import { CreateListingForm } from "../components/atomic/organisms/CreateListingForm/CreateListingForm";
+import { CreateListingForm } from "../components/atomic/molecules/CreateListingForm/CreateListingForm";
 
 import listingFactory from "../eth/Contract.json";
 import { useContract } from "../hooks/useContract";
+import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
 
 declare let window: any;
 
@@ -38,8 +40,6 @@ const Home: NextPage = () => {
   const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();
 
-  
-  
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
@@ -48,9 +48,12 @@ const Home: NextPage = () => {
   async function initListingFactory() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const contract = useContract(listingFactory.address , listingFactory.abi , provider, signer)
-
-
+    const contract = useContract(
+      listingFactory.address,
+      listingFactory.abi,
+      provider,
+      signer
+    );
 
     return contract;
   }
@@ -90,8 +93,9 @@ const Home: NextPage = () => {
   };
   return (
     <div className={styles.container}>
-      <Text as="h3">Close to your location: </Text>
-
+      <Heading p={"8px 0 "} as="h4" size="md">
+        Explore Listings:
+      </Heading>{" "}
       <MainGrid>
         <StyledListingCardGrid>
           {listings &&
@@ -105,10 +109,11 @@ const Home: NextPage = () => {
               );
             })}
         </StyledListingCardGrid>
-        <br />
-        <CreateListingForm submit={listingFactoryMethods.createListing} />
-      </MainGrid>
 
+        <br />
+
+        <CreateListingModal />
+      </MainGrid>
       <br />
     </div>
   );

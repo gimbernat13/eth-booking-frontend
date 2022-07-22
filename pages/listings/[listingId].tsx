@@ -27,6 +27,7 @@ import { useContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
 import { CreateReservationForm } from "../../components/atomic/organisms/CreateReservationForm/CreateReservationForm";
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
+import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
 type Props = {};
 const StyledInfoGrid = styled.div`
   display: grid;
@@ -122,24 +123,11 @@ const Listing = (props: Props) => {
 
       <StyledInfoGrid>
         <div>
-          {reservations?.map((res: string) => (
-            <Box
-              key={res}
-              p="6"
-              maxW="sm"
-              display={"inline-block"}
-              borderWidth="1px"
-              borderRadius="lg"
-              overflow="hidden"
-              border={"1px solid gray"}
-              // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
-            >
-              <div key={res}>{res}</div>
-            </Box>
-          ))}
+        
 
           <ListingOverview />
           <Divider colorScheme={"darkTheme"} />
+          <ListingFeatures />
         </div>
 
         <div className="right">

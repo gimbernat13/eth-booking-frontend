@@ -1,7 +1,15 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
-import { Button, Heading, Wrap, WrapItem } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarBadge,
+  Button,
+  Heading,
+  Stack,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { Text } from "@chakra-ui/react";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -20,31 +28,37 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [chainId, setChainId] = useState<number | undefined>();
   const [chainname, setChainName] = useState<string | undefined>();
 
- 
   return (
     <ChakraProvider>
       <>
-        <div className="nav">
-          <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+          className="nav"
+        >
+          <div>
             <Link href={"/"}>
               <Image height={"50px"} width={"50px"} src={logo} alt="" />
             </Link>
-            <Wrap>
-              {/* <WrapItem>
-                <Button onClick={onClickConnect}> Connect Wallet</Button>
-              </WrapItem> */}
-            </Wrap>
-            <Wrap>
-              <WrapItem></WrapItem>
-            </Wrap>
-            <Wrap>
-              <WrapItem>{currentAccount}</WrapItem>
-            </Wrap>
-
-            <Text as="h3" style={{ marginLeft: "5px" }}>
-              {/* B<span style={{ fontSize: " 14px" }}>3</span>B */}
-            </Text>
           </div>
+
+          <Stack direction="row" spacing={4}>
+            <Avatar>
+              <AvatarBadge boxSize="1.25em" bg="green.500" />
+            </Avatar>
+
+            {/* You can also change the borderColor and bg of the badge */}
+            {/* <Avatar>
+              <AvatarBadge
+                borderColor="papayawhip"
+                bg="tomato"
+                boxSize="1.25em"
+              />
+            </Avatar> */}
+          </Stack>
         </div>
         <Component {...pageProps} />
       </>

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import house from "./house.webp";
+import beach from "../../assets/img/beach-house1.jpg";
 import {
   Text,
   Wrap,
@@ -12,13 +13,14 @@ import {
   Button,
   ButtonGroup,
   Stack,
+  Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
 
 type Props = { address: string };
 export function ListingCard({ address }: Props) {
   const property = {
-    imageUrl: "https://bit.ly/2Z4KKcF",
+    imageUrl: beach,
     imageAlt: "Rear view of modern home with pool",
     beds: 3,
     baths: 2,
@@ -29,18 +31,13 @@ export function ListingCard({ address }: Props) {
   };
 
   return (
-    <Wrap cursor={"pointer"} borderRadius="lg">
-      {/* <Image
-        width="100%"
-        height="300px"
-        alt="niggaz"
-        src="https://as1440"
-      /> */}
+    <Box mr="1rem" cursor={"pointer"} borderRadius="lg">
+      <Wrap borderRadius="lg">
+        {" "}
+        <Image src={property.imageUrl} alt={property.imageAlt} />
+      </Wrap>
 
       <Wrap display="flex" alignItems="baseline">
-        <Badge borderRadius="full" px="2" colorScheme="teal">
-          New
-        </Badge>
         <Wrap
           color="gray.500"
           fontWeight="semibold"
@@ -88,6 +85,6 @@ export function ListingCard({ address }: Props) {
           <WrapItem> {address} </WrapItem>
         </Wrap>
       </Wrap>
-    </Wrap>
+    </Box>
   );
 }
