@@ -112,7 +112,7 @@ const Listing = (props: Props) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = useContract(
-      router.query.listingId.toString(),
+      router.query.listingId ? router.query.listingId.toString() : "",
       listingContract.abi,
       provider,
       signer
@@ -151,6 +151,22 @@ const Listing = (props: Props) => {
         }
       }
     },
+    async createReservation() {
+      if (typeof window.ethereum !== "undefined") {
+        const contract = await initListingFactory();
+        try {
+          const response = await contract.createReservation(666, 999);
+          const mappedShit = response.map((res) => {
+            return ethers.BigNumber.from(res).toNumber();
+          });
+          console.log("[Listing Reservations ]", mappedShit);
+
+          setReservations(mappedShit);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   };
 
   return (
@@ -167,7 +183,7 @@ const Listing = (props: Props) => {
 
       <StyledInfoGrid>
         <div>
-          {reservations.map((res) => (
+          {reservations?.map((res) => (
             <div key={res}>{res}</div>
           ))}
 
@@ -275,6 +291,7 @@ const Listing = (props: Props) => {
                 </WrapItem>
 
                 <Button
+                  onClick={listingFactoryMethods.createReservation}
                   width={"100%"}
                   // isLoading
                   loadingText="Submitting"
