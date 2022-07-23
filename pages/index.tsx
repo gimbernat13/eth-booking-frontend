@@ -30,7 +30,8 @@ declare let window: any;
 
 const StyledListingCardGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  width: 100%;
 `;
 const MainGrid = styled.div`
   /* display: grid;
@@ -73,16 +74,16 @@ const Home: NextPage = () => {
       }
     },
 
-    async createListing() {
+    async createListing(title: string, description: string, cost: number) {
       // const iface = new ethers.utils.Interface(LISTING_ABI);
-
+      console.log("fafafafa", title);
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
         try {
           const response = await contract.createListing(
-            "333",
-            "niggas on a roll ",
-            666
+            title,
+            description,
+            cost
           );
           console.log("response ", response);
         } catch (error) {
@@ -112,7 +113,7 @@ const Home: NextPage = () => {
 
         <br />
 
-        <CreateListingModal />
+        <CreateListingModal submit={listingFactoryMethods.createListing} />
       </MainGrid>
       <br />
     </div>

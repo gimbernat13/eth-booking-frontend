@@ -1,32 +1,48 @@
-import React from "react";
+import { useFormik } from "formik";
+import { Input, Button, Textarea } from "@chakra-ui/react";
+interface MyFormValues {
+  submit: (title: string, description: string, cost: number) => void;
+}
 
-type Props = { submit: any };
-import { Text, Wrap, WrapItem, Box, Button, Input } from "@chakra-ui/react";
-
-export const CreateListingForm = ({ submit }: Props) => {
+export function CreateListingForm({ submit }: MyFormValues) {
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      cost: 0,
+    },
+    onSubmit: (values) => {
+      console.log(...Object.values(values));
+      submit(values.title, values.description, values.cost);
+      // submit(...Object.values(values));
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   return (
-    <Box
-      p="6"
-      maxW={"sm"}
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
-    >
-      <Text fontWeight={"600"}>Create a new Listing</Text>
-      <Input m={"5px 0"} width={"100%"} placeholder="Property Name" />
-      <Input m={"5px 0"} placeholder="Property Description" />
-      <Input m={"5px 0"} width={"100%"} placeholder="Cost Per Night" />
-      <Button
-        w={"100%"}
-        // isLoading
-        loadingText="Submitting"
-        colorScheme="purple"
-        variant="outline"
-        onClick={submit}
-      >
-        Submit
-      </Button>
-    </Box>
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="email">Email Address</label>
+      <Input
+        id="title"
+        name="title"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.title}
+      />
+      <Input
+        id="cost"
+        name="cost"
+        type="number"
+        onChange={formik.handleChange}
+        value={formik.values.cost}
+      />
+      <Textarea
+        id="descripton"
+        name="description"
+        onChange={formik.handleChange}
+        value={formik.values.description}
+      />
+
+      <Button type="submit">Submit</Button>
+    </form>
   );
-};
+}

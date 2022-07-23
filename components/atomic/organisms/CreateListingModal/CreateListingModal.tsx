@@ -14,21 +14,17 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import React from "react";
+import { CreateListingForm } from "../../molecules/CreateListingForm/CreateListingForm";
 
-type Props = {};
+type Props = {
+  submit: ( ) => void;
+};
 
-export function CreateListingModal() {
+export function CreateListingModal({submit} : Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
-
-  let [value, setValue] = React.useState("");
-
-  let handleInputChange = (e: any) => {
-    let inputValue = e.target.value;
-    setValue(inputValue);
-  };
 
   return (
     <>
@@ -56,34 +52,7 @@ export function CreateListingModal() {
           <ModalHeader>List a new property: </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Listing name</FormLabel>
-              <Input
-                colorScheme={"purple"}
-                ref={initialRef}
-                placeholder="First name"
-              />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Cost per Night</FormLabel>
-              <Input
-                colorScheme={"purple"}
-                type="number"
-                ref={initialRef}
-                placeholder="Cost"
-              />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea
-                value={value}
-                onChange={handleInputChange}
-                placeholder="Here is a sample placeholder"
-                size="sm"
-              />{" "}
-            </FormControl>
+            <CreateListingForm submit={submit} />
           </ModalBody>
 
           <ModalFooter>

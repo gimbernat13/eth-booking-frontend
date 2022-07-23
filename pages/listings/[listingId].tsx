@@ -38,10 +38,21 @@ const StyledInfoGrid = styled.div`
 
 declare let window: any;
 
+interface ListingDataProps {
+  title: string;
+  description: string;
+  cost: number;
+}
 const Listing = (props: Props) => {
   const [reservations, setReservations] = React.useState<any>();
-  const [listingData, setListingData] = React.useState<any>();
+  const [listingData, setListingData] = React.useState<ListingDataProps>({
+    title: "",
+    description: "",
+    cost: 0,
+  });
 
+
+  
   const router = useRouter();
   console.log("---router--- , router", router.query.listingId);
 
@@ -105,6 +116,7 @@ const Listing = (props: Props) => {
           const mappedShit = response.map((res) => {
             return ethers.BigNumber.from(res).toNumber();
           });
+
           console.log("[Listing Reservations ]", mappedShit);
 
           setReservations(mappedShit);
@@ -115,6 +127,10 @@ const Listing = (props: Props) => {
     },
   };
 
+
+
+  console.log("listing data " , listingData)
+
   return (
     <div className={styles.container}>
       <Heading>{listingData && listingData[1]}</Heading>
@@ -123,8 +139,8 @@ const Listing = (props: Props) => {
 
       <StyledInfoGrid>
         <div>
-        
-
+          <Heading> {listingData.cost}</Heading>
+          {/* <Heading>Price : {ethers.BigNumber.from(listingData.cost).toNumber()}</Heading> */}
           <ListingOverview />
           <Divider colorScheme={"darkTheme"} />
           <ListingFeatures />
