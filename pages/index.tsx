@@ -37,6 +37,10 @@ const MainGrid = styled.div`
   /* display: grid;
   grid-template-columns: auto; */
 `;
+
+
+
+
 const Home: NextPage = () => {
   const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();

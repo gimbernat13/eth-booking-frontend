@@ -1,30 +1,58 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
-type Props = {};
+import moment from "moment";
+import "react-dates/initialize";
 
-function App({}: Props) {
-  const [startDate, setStartDate] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+// import "./styles.css";
+import { DateRangePicker, isInclusivelyBeforeDay } from "react-dates";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import { Box, Button, Wrap } from "@chakra-ui/react";
+// import "@vf-alchemy/vattenfall-design-system/scss/main.scss";
+
+type Props = {
+  dates: any;
+  submit: (startDate: number, endDate: number) => void;
+};
+
+export function DateRange({ dates, submit }: Props) {
   const [focusedInput, setFocusedInput] = React.useState(null);
+  const startDate = dates.startDate;
+  const endDate = dates.endDate;
+
+  const startDateTS = startDate?._d.getTime();
+  const endDateTS = endDate?._d.getTime();
 
   return (
-    <div className="App">
+    <div>
       <DateRangePicker
         startDate={startDate}
         startDateId="startDate"
         endDate={endDate}
         endDateId="endDate"
         onDatesChange={({ startDate, endDate }) => {
-          setStartDate(startDate);
-          setEndDate(endDate);
+          dates.setStartDate(startDate);
+          dates.setEndDate(endDate);
         }}
         focusedInput={focusedInput}
         onFocusChange={setFocusedInput}
-        isOutsideRange={(day) => !isInclusivelyBeforeDay(day, moment())}
+        isOutsideRange={(day: any) => !isInclusivelyBeforeDay(day, moment())}
         initialVisibleMonth={() => moment().subtract(1, "month")}
         // numberOfMonths={1}
         orientation={"vertical"}
       />
+      <Button
+      
+        onClick={() => submit(startDateTS, endDateTS)}
+        width={"100%"}
+        // isLoading
+        loadingText="Submitting"
+        colorScheme="purple"
+        variant="outline"
+      >
+        Submit
+      </Button>
     </div>
   );
 }

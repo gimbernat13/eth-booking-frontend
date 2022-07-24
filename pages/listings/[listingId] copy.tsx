@@ -57,10 +57,8 @@ const Listing = (props: Props) => {
 
   const [startDate, setStartDate] = React.useState<any>(null);
   const [endDate, setEndDate] = React.useState<any>(null);
-  const [costPerDay, setCostPerDay] = React.useState<any>(null);
 
   const router = useRouter();
-  console.log("---router--- , router", router.query.listingId);
 
   useEffect(() => {
     listingFactoryMethods.getListingData();
@@ -88,9 +86,8 @@ const Listing = (props: Props) => {
         const contract = await initListingFactory();
         try {
           const response = await contract.getListingData();
-          console.log("[Listing Data ]", response);
+          // console.log("[Listing Data ]", response);
           setListingData(response);
-          setCostPerDay(response[2]);
         } catch (error) {
           console.log(error);
         }
@@ -115,31 +112,13 @@ const Listing = (props: Props) => {
     async createReservation(startDate: number, endDate: number) {
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
-
-        const range = Math.round((endDate - startDate) / 60 / 60 / 24);
-        const costPerDayz = ethers.BigNumber.from(costPerDay).toNumber();
-        const total = (costPerDayz * range) / 10000;
-
         try {
-          console.log("[Total] ", total);
-          console.log("[start date ] ", startDate);
-          console.log("[end date ] ", endDate);
-
-          // const response = await contract?.createReservation(
-          //   startDate,
-          //   endDate,
-          //   { value: ethers.utils.parseUnits(total.toString(), "wei") }
-          // );
-
-          const createReservation = await contract?.createReservation(
-            1658421358,
-            1658879885,
-            {
-              value: ethers.utils.parseUnits("20", "wei"),
-            }
+          const response = await contract?.createReservation(
+            startDate,
+            endDate
           );
 
-          const mappedShit = createReservation.map((res: any) => {
+          const mappedShit = response.map((res) => {
             return ethers.BigNumber.from(res).toNumber();
           });
 
@@ -153,14 +132,29 @@ const Listing = (props: Props) => {
     },
   };
 
-  console.log("listing data ", listingData);
-
   return (
     <div className={styles.container}>
       <Heading>{listingData && listingData[1]}</Heading>
       <ListingPhotoGrid />
       <br />
 
+      <div>
+        {reservations?.map((res: string) => (
+          <Box
+            key={res}
+            p="6"
+            maxW="sm"
+            display={"inline-block"}
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            border={"1px solid gray"}
+            // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+          >
+            <div key={res}>{res}</div>
+          </Box>
+        ))}
+      </div>
       <StyledInfoGrid>
         <div>
           <Heading> {listingData.cost}</Heading>
