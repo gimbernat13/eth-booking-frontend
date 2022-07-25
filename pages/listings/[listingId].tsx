@@ -128,10 +128,10 @@ const Listing = (props: Props) => {
 
         try {
           const createReservation = await contract?.createReservation(
-            // 1658421358,
-            // 1658879885,
-            _startDate / 1000,
-            _startDate / 1000,
+            1658421358,
+            1658879885,
+            // _startDate / 1000,
+            // _startDate / 1000,
             {
               value: ethers.utils.parseUnits(total.toString(), "wei"),
             }
