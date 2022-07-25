@@ -25,13 +25,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
-import { CreateReservationForm } from "../../components/atomic/organisms/CreateReservationForm/CreateReservationForm";
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
 import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
 import {
   DateRange,
   DateRangePicker,
 } from "../../components/atomic/molecules/DateRangePicker/DateRangePicker";
+import { CreateReservationForm } from "../../components/atomic/molecules/CreateReservationForm/CreateReservationForm";
 type Props = {};
 const StyledInfoGrid = styled.div`
   display: grid;
@@ -57,6 +57,7 @@ const Listing = (props: Props) => {
 
   const [startDate, setStartDate] = React.useState<any>(null);
   const [endDate, setEndDate] = React.useState<any>(null);
+
   const [costPerDay, setCostPerDay] = React.useState<any>(null);
 
   const router = useRouter();
@@ -112,40 +113,30 @@ const Listing = (props: Props) => {
         }
       }
     },
-    async createReservation(startDate: number, endDate: number) {
+    async createReservation(_startDate: number, _endDate: number) {
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
 
-        const range = Math.round((endDate - startDate) / 60 / 60 / 24);
+        const range = Math.round((1658879885 - 1658421358) / 60 / 60 / 24);
         const costPerDayz = ethers.BigNumber.from(costPerDay).toNumber();
-        const total = (costPerDayz * range) / 10000;
+        const total = costPerDayz * range;
+        console.log("[Days Booked] ", range);
+        console.log("[Cost Per Day ] ", costPerDay);
+        console.log("[TOTAL] ", total);
 
         try {
-          console.log("[Total] ", total);
-          console.log("[start date ] ", startDate);
-          console.log("[end date ] ", endDate);
+          // console.log("[Total] ", parsedTotal);
+          // console.log("[Days Booked] ", daysBooked);
 
-          // const response = await contract?.createReservation(
-          //   startDate,
-          //   endDate,
-          //   { value: ethers.utils.parseUnits(total.toString(), "wei") }
+          // const createReservation = await contract?.createReservation(
+          //   1658421358,
+          //   1658879885,
+          //   {
+          //     value: ethers.utils.parseUnits(total.toString(), "wei"),
+          //   }
           // );
 
-          const createReservation = await contract?.createReservation(
-            1658421358,
-            1658879885,
-            {
-              value: ethers.utils.parseUnits("20", "wei"),
-            }
-          );
-
-          const mappedShit = createReservation.map((res: any) => {
-            return ethers.BigNumber.from(res).toNumber();
-          });
-
-          console.log("[Listing Reservations ]", mappedShit);
-
-          setReservations(mappedShit);
+          // console.log("response ", createReservation);
         } catch (error) {
           console.log(error);
         }
@@ -157,7 +148,8 @@ const Listing = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      <Heading>{listingData && listingData[1]}</Heading>
+      <Heading>{listingData[0] && listingData[0]}</Heading>
+      <Text>{listingData[1] && listingData[1]} </Text>
       <ListingPhotoGrid />
       <br />
 
@@ -171,18 +163,9 @@ const Listing = (props: Props) => {
         </div>
 
         <div className="right">
-          <DateRange
-            dates={{
-              startDate,
-              setStartDate,
-              endDate,
-              setEndDate,
-            }}
+          <CreateReservationForm
             submit={listingFactoryMethods.createReservation}
           />
-          {/* <CreateReservationForm
-            submit={listingFactoryMethods.createReservation}
-          /> */}
         </div>
       </StyledInfoGrid>
     </div>

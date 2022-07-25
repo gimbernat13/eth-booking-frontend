@@ -1,58 +1,37 @@
-import React from "react";
-import ReactDOM from "react-dom";
-
-import moment from "moment";
+import React, { useState } from "react";
 import "react-dates/initialize";
-
-// import "./styles.css";
-import { DateRangePicker, isInclusivelyBeforeDay } from "react-dates";
-import "react-dates/initialize";
+import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
-import { Box, Button, Wrap } from "@chakra-ui/react";
-// import "@vf-alchemy/vattenfall-design-system/scss/main.scss";
-
+import { Button } from "@chakra-ui/react";
 type Props = {
-  dates: any;
-  submit: (startDate: number, endDate: number) => void;
+  // All other props
+  [x: string]: any;
 };
 
-export function DateRange({ dates, submit }: Props) {
-  const [focusedInput, setFocusedInput] = React.useState(null);
-  const startDate = dates.startDate;
-  const endDate = dates.endDate;
-
-  const startDateTS = startDate?._d.getTime();
-  const endDateTS = endDate?._d.getTime();
-
+export const DatePickerWithFormik = ({
+  startDateId,
+  endDateId,
+  form: { setFieldValue, setFieldTouched, values },
+  field,
+  ...props
+}: Props) => {
+  const [focusedInput, setFocusedInput] = useState(null);
+  const handleDatesChange = ({ startDate, endDate }) => {
+    setFieldValue("startDate", startDate);
+    setFieldValue("endDate", endDate);
+  };
   return (
-    <div>
+    <div className="App">
       <DateRangePicker
-        startDate={startDate}
-        startDateId="startDate"
-        endDate={endDate}
-        endDateId="endDate"
-        onDatesChange={({ startDate, endDate }) => {
-          dates.setStartDate(startDate);
-          dates.setEndDate(endDate);
-        }}
+        startDate={values["startDate"]}
+        startDateId="tata-start-date"
+        endDate={values["endDate"]}
+        endDateId="tata-end-date"
+        onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
-        onFocusChange={setFocusedInput}
-        isOutsideRange={(day: any) => !isInclusivelyBeforeDay(day, moment())}
-        initialVisibleMonth={() => moment().subtract(1, "month")}
-        // numberOfMonths={1}
-        orientation={"vertical"}
+        onFocusChange={(focusedInput: any) => setFocusedInput(focusedInput)}
       />
-      <Button
-      
-        onClick={() => submit(startDateTS, endDateTS)}
-        width={"100%"}
-        // isLoading
-        loadingText="Submitting"
-        colorScheme="purple"
-        variant="outline"
-      >
-        Submit
-      </Button>
+      <Button type="submit"> Niggas</Button>
     </div>
   );
-}
+};
