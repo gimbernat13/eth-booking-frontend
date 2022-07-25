@@ -19,7 +19,7 @@ import {
 import pool from "../../assets/img/swimming-pool.png";
 import study from "../../assets/img/study.png";
 import chimney from "../../assets/img/chimney.png";
-import listingContract from "../../eth/ListingContract.json";
+import listingContract from "../../eth/ListingListingFactory.json";
 
 import Image from "next/image";
 import { useRouter } from "next/router";

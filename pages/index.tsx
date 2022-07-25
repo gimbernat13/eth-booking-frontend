@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { CreateListingForm } from "../components/atomic/molecules/CreateListingForm/CreateListingForm";
 
-import listingFactory from "../eth/Contract.json";
+import listingFactory from "../eth/ListingFactory.json";
 import { useContract } from "../hooks/useContract";
 import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
 

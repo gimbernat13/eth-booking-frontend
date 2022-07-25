@@ -3,7 +3,7 @@ import { Input, Button, Textarea } from "@chakra-ui/react";
 import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
 import moment, { Moment } from "moment";
 interface MyFormValues {
-  submit: (_startDate: string, endDate: number) => void;
+  submit: (_startDate: number, endDate: number) => void;
 }
 
 declare global {
@@ -27,7 +27,7 @@ export function CreateReservationForm({ submit }: MyFormValues) {
 
       submit(startTS, endTS);
       // submit(...Object.values(values));
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
 
       // console.log(convertToTimestamp(values.startDate));
       // convertToTimestamp(values.endDate);

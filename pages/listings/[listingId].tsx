@@ -19,7 +19,7 @@ import {
 import pool from "../../assets/img/swimming-pool.png";
 import study from "../../assets/img/study.png";
 import chimney from "../../assets/img/chimney.png";
-import listingContract from "../../eth/ListingContract.json";
+import listingContract from "../../eth/Listing.json";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -27,12 +27,10 @@ import { useContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
 import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
-import {
-  DateRange,
-  DateRangePicker,
-} from "../../components/atomic/molecules/DateRangePicker/DateRangePicker";
 import { CreateReservationForm } from "../../components/atomic/molecules/CreateReservationForm/CreateReservationForm";
+
 type Props = {};
+
 const StyledInfoGrid = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -120,23 +118,25 @@ const Listing = (props: Props) => {
         const range = Math.round((1658879885 - 1658421358) / 60 / 60 / 24);
         const costPerDayz = ethers.BigNumber.from(costPerDay).toNumber();
         const total = costPerDayz * range;
+
+        console.log("[START DATE] ", _startDate / 1000);
+        console.log("[END DATE] ", _endDate / 1000);
+
         console.log("[Days Booked] ", range);
-        console.log("[Cost Per Day ] ", costPerDay);
+        console.log("[Cost Per Day ] ", costPerDay.toNumber());
         console.log("[TOTAL] ", total);
 
         try {
-          // console.log("[Total] ", parsedTotal);
-          // console.log("[Days Booked] ", daysBooked);
-
-          // const createReservation = await contract?.createReservation(
-          //   1658421358,
-          //   1658879885,
-          //   {
-          //     value: ethers.utils.parseUnits(total.toString(), "wei"),
-          //   }
-          // );
-
-          // console.log("response ", createReservation);
+          const createReservation = await contract?.createReservation(
+            // 1658421358,
+            // 1658879885,
+            _startDate / 1000,
+            _startDate / 1000,
+            {
+              value: ethers.utils.parseUnits(total.toString(), "wei"),
+            }
+          );
+          console.log("response ", createReservation);
         } catch (error) {
           console.log(error);
         }
@@ -145,7 +145,6 @@ const Listing = (props: Props) => {
   };
 
   console.log("listing data ", listingData);
-
   return (
     <div className={styles.container}>
       <Heading>{listingData[0] && listingData[0]}</Heading>
