@@ -115,21 +115,23 @@ const Listing = (props: Props) => {
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
 
-        const range = Math.round((1658879885 - 1658421358) / 60 / 60 / 24);
+        const bookedDays = Math.round(
+          (_endDate / 1000 - _startDate / 1000) / 60 / 60 / 24
+        );
         const costPerDayz = ethers.BigNumber.from(costPerDay).toNumber();
-        const total = costPerDayz * range;
+        const total = costPerDayz * bookedDays;
 
         console.log("[START DATE] ", _startDate / 1000);
         console.log("[END DATE] ", _endDate / 1000);
 
-        console.log("[Days Booked] ", range);
+        console.log("[Days Booked] ", bookedDays);
         console.log("[Cost Per Day ] ", costPerDay.toNumber());
         console.log("[TOTAL] ", total);
 
         try {
           const createReservation = await contract?.createReservation(
-            1658421358,
-            1658879885,
+            _startDate,
+            bookedDays,
             // _startDate / 1000,
             // _startDate / 1000,
             {
