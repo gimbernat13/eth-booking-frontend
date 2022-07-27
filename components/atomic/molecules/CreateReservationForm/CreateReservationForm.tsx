@@ -4,6 +4,7 @@ import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
 import moment, { Moment } from "moment";
 interface MyFormValues {
   submit: (_startDate: number, endDate: number) => void;
+  reservations: string[];
 }
 
 declare global {
@@ -14,7 +15,7 @@ declare global {
 function convertToTimestamp(date: any) {
   return date.getTime();
 }
-export function CreateReservationForm({ submit }: MyFormValues) {
+export function CreateReservationForm({ submit , reservations }: MyFormValues) {
   const formik = useFormik({
     initialValues: {
       startDate: moment(),
@@ -42,6 +43,7 @@ export function CreateReservationForm({ submit }: MyFormValues) {
         <label htmlFor="">Email Address</label>
         <Field
           component={DatePickerWithFormik}
+          reservations = {reservations}
           // name="DatePickerWithFormik"
           className="form-control"
         />{" "}

@@ -1,27 +1,11 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import styles from "../../styles/Home.module.css";
-import {
-  Text,
-  Wrap,
-  WrapItem,
-  Divider,
-  Center,
-  Box,
-  Badge,
-  Heading,
-  Button,
-  ButtonGroup,
-  Stack,
-} from "@chakra-ui/react";
+import { Text, Divider, Heading, Box } from "@chakra-ui/react";
 
-import pool from "../../assets/img/swimming-pool.png";
-import study from "../../assets/img/study.png";
-import chimney from "../../assets/img/chimney.png";
 import listingContract from "../../eth/Listing.json";
 
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
@@ -46,7 +30,7 @@ interface ListingDataProps {
   cost: number;
 }
 const Listing = (props: Props) => {
-  const [reservations, setReservations] = React.useState<any>();
+  const [reservations, setReservations] = React.useState<any>([]);
   const [listingData, setListingData] = React.useState<ListingDataProps>({
     title: "",
     description: "",
@@ -59,7 +43,6 @@ const Listing = (props: Props) => {
   const [costPerDay, setCostPerDay] = React.useState<any>(null);
 
   const router = useRouter();
-  console.log("---router--- , router", router.query.listingId);
 
   useEffect(() => {
     listingFactoryMethods.getListingData();
@@ -100,14 +83,12 @@ const Listing = (props: Props) => {
         const contract = await initListingFactory();
         try {
           const response = await contract.getAllReservations();
-          const mappedShit = response.map((res) => {
-            return ethers.BigNumber.from(res).toNumber();
-          });
-          console.log("[Listing Reservations ]", mappedShit);
 
-          setReservations(mappedShit);
+          console.log("[Listing Reservations ]", response);
+
+          setReservations(response);
         } catch (error) {
-          console.log(error);
+          console.log("Ftetch error", error);
         }
       }
     },
@@ -130,7 +111,7 @@ const Listing = (props: Props) => {
 
         try {
           const createReservation = await contract?.createReservation(
-            _startDate,
+            1659567073,
             bookedDays,
             // _startDate / 1000,
             // _startDate / 1000,
@@ -146,6 +127,12 @@ const Listing = (props: Props) => {
     },
   };
 
+  const newDate = new Date("2022-10-22");
+
+  const mappedReservations = reservations?.map((res: string) => {
+    console.log(new Date(res));
+  });
+
   console.log("listing data ", listingData);
   return (
     <div className={styles.container}>
@@ -153,6 +140,22 @@ const Listing = (props: Props) => {
       <Text>{listingData[1] && listingData[1]} </Text>
       <ListingPhotoGrid />
       <br />
+      {reservations?.map((res: string) => (
+        <Box
+          key={res}
+          p="6"
+          mr={"6"}
+          maxW="sm"
+          display={"inline-block"}
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          border={"1px solid gray"}
+          // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+        >
+          <div key={res}>{res}</div>
+        </Box>
+      ))}
 
       <StyledInfoGrid>
         <div>
@@ -165,6 +168,7 @@ const Listing = (props: Props) => {
 
         <div className="right">
           <CreateReservationForm
+            reservations = {reservations}
             submit={listingFactoryMethods.createReservation}
           />
         </div>
