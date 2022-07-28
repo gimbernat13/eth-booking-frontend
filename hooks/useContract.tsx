@@ -23,3 +23,6 @@ export function useContract<T extends Contract = Contract>(
 export const useListingContract = (address: string) => {
   return useContract(address, listing.abi);
 };
+export const useListingFactoryContract = () => {
+  return useContract(listingFactory.address, listingFactory.abi);
+};

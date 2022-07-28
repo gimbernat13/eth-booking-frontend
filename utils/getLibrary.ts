@@ -4,7 +4,7 @@ declare var window: any;
 export const getLibrary = () => {
   let provider;
   let signer;
-  if (window != undefined) {
+  if (typeof window !== "undefined") {
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
   }

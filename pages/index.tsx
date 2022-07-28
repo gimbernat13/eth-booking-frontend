@@ -23,7 +23,7 @@ import {
 import { CreateListingForm } from "../components/atomic/molecules/CreateListingForm/CreateListingForm";
 
 import listingFactory from "../eth/ListingFactory.json";
-import { useContract } from "../hooks/useContract";
+import { useContract, useListingFactoryContract } from "../hooks/useContract";
 import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
 import { HeroSection } from "../components/atomic/organisms/HeroSection/HeroSection";
 
@@ -46,28 +46,24 @@ const Home: NextPage = () => {
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
+  const listingFactoryContract = useListingFactoryContract();
 
   // FIXME: ABSTRACT TO HOOK
-  async function initListingFactory() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = useContract(
-      listingFactory.address,
-      listingFactory.abi,
-   
-    );
 
-    return contract;
-  }
+  const eventProvider = new ethers.providers.WebSocketProvider(
+    "ws://localhost:8545"
+  );
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
     async getListings() {
       if (typeof window.ethereum !== "undefined") {
-        const contract = await initListingFactory();
         try {
-          console.log("fetching listings", await contract.getListings());
-          const response = await contract.getListings();
+          console.log(
+            "fetching listings",
+            await listingFactoryContract?.getListings()
+          );
+          const response = await listingFactoryContract?.getListings();
           setListings(response);
         } catch (error) {
           console.log(error);
@@ -79,9 +75,8 @@ const Home: NextPage = () => {
       // const iface = new ethers.utils.Interface(LISTING_ABI);
       console.log("fafafafa", title);
       if (typeof window.ethereum !== "undefined") {
-        const contract = await initListingFactory();
         try {
-          const response = await contract.createListing(
+          const response = await listingFactoryContract?.createListing(
             title,
             description,
             cost

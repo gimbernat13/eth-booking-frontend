@@ -63,9 +63,7 @@ const Listing = (props: Props) => {
     return contract;
   }
 
-  const contract = useListingContract(
-    router.query.listingId && router.query.listingId
-  );
+  const contract = useListingContract(router.query.listingId);
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
@@ -73,7 +71,7 @@ const Listing = (props: Props) => {
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
         try {
-          const response = await contract.getListingData();
+          const response = await contract?.getListingData();
           console.log("[Listing Data ]", response);
           setListingData(response);
           setCostPerDay(response[2]);
@@ -86,7 +84,7 @@ const Listing = (props: Props) => {
       if (typeof window.ethereum !== "undefined") {
         const contract = await initListingFactory();
         try {
-          const response = await contract.getAllReservations();
+          const response = await contract?.getAllReservations();
 
           console.log("[Listing Reservations ]", response);
 
