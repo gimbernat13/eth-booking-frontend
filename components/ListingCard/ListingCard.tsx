@@ -1,39 +1,47 @@
 import React from "react";
-import styled from "styled-components";
-import house from "./house.webp";
 import beach from "../../assets/img/beach-house1.jpg";
-import {
-  Text,
-  Wrap,
-  WrapItem,
-  Divider,
-  Center,
-  Badge,
-  Heading,
-  Button,
-  ButtonGroup,
-  Stack,
-  Box,
-} from "@chakra-ui/react";
+import { Wrap, WrapItem, Box } from "@chakra-ui/react";
 import Image from "next/image";
+import { ethers } from "ethers";
+import { useListingContract } from "../../hooks/useContract";
+declare let window: any;
 
 type Props = { address: string };
 export function ListingCard({ address }: Props) {
+  const listingContract = useListingContract(address);
+  const [listingData, setListingData] = React.useState();
+
+  console.log("listing contract ", listingContract);
+
+  const getListingData = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        const response = await listingContract?.getListingData();
+        console.log("[Listing Data ]", response);
+        setListingData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const property = {
     imageUrl: beach,
     imageAlt: "Rear view of modern home with pool",
     beds: 3,
     baths: 2,
-    title: "Modern home in city center in the heart of historic Los Angeles",
     formattedPrice: "$1,900.00",
     reviewCount: 34,
     rating: 4,
   };
 
+  React.useEffect(() => {
+    getListingData();
+  }, []);
+
   return (
     <Box mr="1rem" cursor={"pointer"} borderRadius="lg">
       <Wrap borderRadius="24px">
-        {" "}
         <Image src={property.imageUrl} alt={property.imageAlt} />
       </Wrap>
 
@@ -41,7 +49,7 @@ export function ListingCard({ address }: Props) {
         <Wrap
           color="gray.500"
           fontWeight="semibold"
-          letterSpacing="wide"
+          // letterSpacing="wide"
           fontSize="xs"
           textTransform="uppercase"
           ml="2"
@@ -59,7 +67,7 @@ export function ListingCard({ address }: Props) {
         lineHeight="tight"
         noOfLines={1}
       >
-        <WrapItem>{property.title}</WrapItem>
+        <WrapItem>{listingData && listingData[0]}</WrapItem>
       </Wrap>
 
       <Wrap>
@@ -70,17 +78,7 @@ export function ListingCard({ address }: Props) {
       </Wrap>
 
       <Wrap display="flex" mt="2" alignItems="center">
-        {/* {Array(5)
-            .fill("")
-            .map((_, i) => (
-              <StarIcon
-                key={i}
-                color={i < property.rating ? "teal.500" : "gray.300"}
-              />
-            ))} */}
-        <Wrap as="span" ml="2" color="gray.600" fontSize="sm">
-          <WrapItem> {property.reviewCount} reviews</WrapItem>
-        </Wrap>
+ 
         <Wrap as="div" ml="2" color="gray.600" fontSize="sm">
           <WrapItem> {address} </WrapItem>
         </Wrap>

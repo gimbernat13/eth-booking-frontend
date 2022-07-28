@@ -13,7 +13,6 @@ export const useWeb3 = () => {
 
   useEffect(() => {
     if (!currentAccount || !ethers.utils.isAddress(currentAccount)) return;
-    //client side code
     if (!window.ethereum) return;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     provider.getBalance(currentAccount).then((result) => {
@@ -29,7 +28,7 @@ export const useWeb3 = () => {
         if (accounts.length > 0) setCurrentAccount(accounts[0]);
       })
       .catch((e) => console.log(e));
-  }, [currentAccount]);
+  }, []);
 
   const onClickConnect = () => {
     //client side code

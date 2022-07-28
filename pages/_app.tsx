@@ -12,7 +12,7 @@ import { SiweLogin } from "../siwe/siwe";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { currentAccount } = useWeb3();
+  const { currentAccount , balance } = useWeb3();
   return (
     <ChakraProvider>
       <>
@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Stack direction="row" alignItems={"center"} spacing={4}>
            
 
-         
+            <Button> {balance} </Button>
             <SiweLogin />
             {/* You can also change the borderColor and bg of the badge */}
             {/* <Avatar>

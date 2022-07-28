@@ -38,3 +38,7 @@ p {
 button {
   border-radius: var(--border-radius) !important;
 }
+
+.DateRangePickerInput , .DateRangePickerInput__withBorder {
+  /* border-radius: var(--border-radius) !important; */
+}

@@ -7,7 +7,7 @@ import { Text, Divider, Heading, Box } from "@chakra-ui/react";
 import listingContract from "../../eth/Listing.json";
 
 import { useRouter } from "next/router";
-import { useContract } from "../../hooks/useContract";
+import { useContract, useListingContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
 import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
@@ -62,6 +62,10 @@ const Listing = (props: Props) => {
 
     return contract;
   }
+
+  const contract = useListingContract(
+    router.query.listingId && router.query.listingId
+  );
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
@@ -168,7 +172,7 @@ const Listing = (props: Props) => {
 
         <div className="right">
           <CreateReservationForm
-            reservations = {reservations}
+            reservations={reservations}
             submit={listingFactoryMethods.createReservation}
           />
         </div>

@@ -21,19 +21,7 @@ const StyledHero = styled.div`
   }
 `;
 
-const StyledHero1 = styled.div`
-  height: 90vh;
-  width: 100%;
-  display: grid;
-  grid-template-columns : 60% 1fr;
-  align-items: center;
-  background-size: cover;
-  box-shadow: 0 0 0 2000px inset #1717177e;
-  background-image: url("https://news.airbnb.com/wp-content/uploads/sites/4/2020/05/Airbnb-Beachfront-Greece.jpg?w=2400");
-  h2 {
-    color: white;
-  }
-`;
+
 export const HeroSection = ({submit}: Props) => {
   return (
     <StyledHero>

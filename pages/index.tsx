@@ -54,8 +54,7 @@ const Home: NextPage = () => {
     const contract = useContract(
       listingFactory.address,
       listingFactory.abi,
-      provider,
-      signer
+   
     );
 
     return contract;
