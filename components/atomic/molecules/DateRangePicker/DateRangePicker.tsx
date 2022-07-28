@@ -30,7 +30,7 @@ export const DatePickerWithFormik = ({
   };
 
   return (
-    <div className="App">
+    <>
       <DateRangePicker
         startDate={values["startDate"]}
         startDateId="tata-start-date"
@@ -41,7 +41,7 @@ export const DatePickerWithFormik = ({
         isDayBlocked={isBlocked}
         onFocusChange={(focusedInput: any) => setFocusedInput(focusedInput)}
       />
-      <Button type="submit"> Niggas</Button>
-    </div>
+      <Button colorScheme={"purple"} width={"100%"}type="submit"> Book</Button>
+    </>
   );
 };

@@ -7,20 +7,15 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalFooter,
-  Textarea,
 } from "@chakra-ui/react";
 import React from "react";
 import { CreateListingForm } from "../../molecules/CreateListingForm/CreateListingForm";
 
 type Props = {
-  submit: ( ) => void;
+  submit: () => void;
 };
 
-export function CreateListingModal({submit} : Props) {
+export function CreateListingModal({ submit }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = React.useRef(null);
@@ -29,12 +24,11 @@ export function CreateListingModal({submit} : Props) {
   return (
     <>
       <Button
-        onClick={onOpen}
-        // width={"100%"}
-        // isLoading
         loadingText="Submitting"
-        colorScheme="purple"
-        variant="outline"
+        onClick={onOpen}
+        mr={6}
+        mt={6}
+        colorScheme={"purple"}
       >
         Create a new Listing
       </Button>
@@ -55,12 +49,12 @@ export function CreateListingModal({submit} : Props) {
             <CreateListingForm submit={submit} />
           </ModalBody>
 
-          <ModalFooter>
+          {/* <ModalFooter>
             <Button colorScheme="purple" mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
+          </ModalFooter> */}
         </ModalContent>
       </Modal>
     </>

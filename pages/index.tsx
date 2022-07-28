@@ -25,21 +25,19 @@ import { CreateListingForm } from "../components/atomic/molecules/CreateListingF
 import listingFactory from "../eth/ListingFactory.json";
 import { useContract } from "../hooks/useContract";
 import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
+import { HeroSection } from "../components/atomic/organisms/HeroSection/HeroSection";
 
 declare let window: any;
 
 const StyledListingCardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   width: 100%;
 `;
 const MainGrid = styled.div`
   /* display: grid;
   grid-template-columns: auto; */
 `;
-
-
-
 
 const Home: NextPage = () => {
   const [provider, setProvider] = React.useState<any>();
@@ -97,30 +95,34 @@ const Home: NextPage = () => {
     },
   };
   return (
-    <div className={styles.container}>
-      <Heading p={"8px 0 "} as="h4" size="md">
-        Explore Listings:
-      </Heading>{" "}
-      <MainGrid>
-        <StyledListingCardGrid>
-          {listings &&
-            listings.map((listing: any) => {
-              return (
-                <Link key={listing} href={`/listings/${listing}`}>
-                  <div>
-                    <ListingCard address={listing} />
-                  </div>
-                </Link>
-              );
-            })}
-        </StyledListingCardGrid>
+    <>
+      <HeroSection submit={listingFactoryMethods.createListing} />
 
+      <div className={styles.container}>
+        <Heading p={"8px 0 "} as="h4" size="md">
+          Explore Listings:
+        </Heading>{" "}
+        <MainGrid>
+          <StyledListingCardGrid>
+            {listings &&
+              listings.map((listing: any) => {
+                return (
+                  <Link key={listing} href={`/listings/${listing}`}>
+                    <div>
+                      <ListingCard address={listing} />
+                    </div>
+                  </Link>
+                );
+              })}
+          </StyledListingCardGrid>
+
+          <br />
+
+          <CreateListingModal submit={listingFactoryMethods.createListing} />
+        </MainGrid>
         <br />
-
-        <CreateListingModal submit={listingFactoryMethods.createListing} />
-      </MainGrid>
-      <br />
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -20,7 +20,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="email">Email Address</label>
+      <label htmlFor="title">Listing Name</label>
       <Input
         id="title"
         name="title"
@@ -28,6 +28,8 @@ export function CreateListingForm({ submit }: MyFormValues) {
         onChange={formik.handleChange}
         value={formik.values.title}
       />
+      <label htmlFor="cost">Cost per night</label>
+
       <Input
         id="cost"
         name="cost"
@@ -35,6 +37,8 @@ export function CreateListingForm({ submit }: MyFormValues) {
         onChange={formik.handleChange}
         value={formik.values.cost}
       />
+      <label htmlFor="cost">Description</label>
+
       <Textarea
         id="descripton"
         name="description"
@@ -42,7 +46,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
         value={formik.values.description}
       />
 
-      <Button type="submit">Submit</Button>
+      <Button m= {"1rem 0"}float={"right"} type="submit">Submit</Button>
     </form>
   );
 }
