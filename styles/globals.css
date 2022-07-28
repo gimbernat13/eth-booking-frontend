@@ -23,17 +23,18 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: .2rem 1rem;
-
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 1px !important;
-
-
 }
 
 
 :root {
-  --border-radius: 1rem;
+  --border-radius: 24px;
 }
 
 p {
   margin: .25rem 0;
+}
+
+button {
+  border-radius: var(--border-radius) !important;
 }

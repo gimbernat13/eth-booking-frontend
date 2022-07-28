@@ -32,7 +32,7 @@ export function ListingCard({ address }: Props) {
 
   return (
     <Box mr="1rem" cursor={"pointer"} borderRadius="lg">
-      <Wrap borderRadius="lg">
+      <Wrap borderRadius="24px">
         {" "}
         <Image src={property.imageUrl} alt={property.imageAlt} />
       </Wrap>
