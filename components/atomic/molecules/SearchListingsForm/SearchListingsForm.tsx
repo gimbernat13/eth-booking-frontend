@@ -2,9 +2,10 @@ import { Field, Form, FormikProvider, useFormik } from "formik";
 import { Input, Button, Textarea, Box } from "@chakra-ui/react";
 import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
 import moment, { Moment } from "moment";
+import { DateRangePickerNormal } from "../DateRangePickerNormal/DateRangePickerNormal";
 interface MyFormValues {
-  submit: (_startDate: number, endDate: number) => void;
-  reservations: string[];
+  submit?: (_startDate: number, endDate: number) => void;
+  // reservations: string[];
 }
 
 declare global {
@@ -13,7 +14,7 @@ declare global {
   }
 }
 
-export function CreateReservationForm({ submit, reservations }: MyFormValues) {
+export function SearchListingsForm({ submit }: MyFormValues) {
   const formik = useFormik({
     initialValues: {
       startDate: moment(),
@@ -22,21 +23,27 @@ export function CreateReservationForm({ submit, reservations }: MyFormValues) {
     onSubmit: (values) => {
       const startTS = values.startDate._d.getTime();
       const endTS = values.endDate._d.getTime();
-      submit(startTS, endTS);
-      
+      // submit(startTS, endTS);
     },
   });
 
-
   return (
-    <Box bg={"white"} borderRadius={"lg"} boxShadow={"lg"}  p={6}>
+    <Box bg={"white"} borderRadius={"xl"} boxShadow={"xl"} p={6}>
       <FormikProvider value={formik}>
         <Form>
-          <label htmlFor="">Create a Reservation</label>
+          <label htmlFor="">Guests</label>
+
           <Field
-            component={DatePickerWithFormik}
-            reservations={reservations}
-            // name="DatePickerWithFormik"
+            component={Input}
+            name="DateRangePickerNormal"
+            className="form-control"
+            type="number"
+            placeHolder="Number of Guests"
+          />
+          <label htmlFor="">Search By Dates:</label>
+          <Field
+            component={DateRangePickerNormal}
+            name="DateRangePickerNormal"
             className="form-control"
           />
         </Form>

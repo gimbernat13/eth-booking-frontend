@@ -35,10 +35,19 @@ p {
   margin: .25rem 0;
 }
 
-button {
+button,
+input, textarea {
   border-radius: var(--border-radius) !important;
 }
 
-.DateRangePickerInput , .DateRangePickerInput__withBorder {
-  /* border-radius: var(--border-radius) !important; */
+.DateInput_input {
+  /* border: none; */
+  border-radius: var(--border-radius) !important;
+
+}
+
+.DateRangePickerInput,
+.DateRangePickerInput__withBorder {
+  width: 100% !important;
+  border-radius: var(--border-radius) !important;
 }

@@ -7,7 +7,7 @@ import { Text, Divider, Heading, Box } from "@chakra-ui/react";
 import listingContract from "../../eth/Listing.json";
 
 import { useRouter } from "next/router";
-import { useContract, useListingContract } from "../../hooks/useContract";
+import { useContract, getListingContract } from "../../hooks/useContract";
 import { ListingOverview } from "../../components/atomic/molecules/ListingOverview/ListingOverview";
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
 import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
@@ -55,15 +55,13 @@ const Listing = (props: Props) => {
     const signer = provider.getSigner();
     const contract = useContract(
       router.query.listingId ? router.query.listingId.toString() : "",
-      listingContract.abi,
-      provider,
-      signer
+      listingContract.abi
     );
 
     return contract;
   }
 
-  const contract = useListingContract(router.query.listingId);
+  const contract = getListingContract(router.query.listingId);
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {

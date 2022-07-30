@@ -3,29 +3,16 @@ import type { NextPage } from "next";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ListingCard } from "../components/ListingCard/ListingCard";
-// import { useWeb3 } from "../hooks/useWeb3";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import {
-  Text,
-  Wrap,
-  WrapItem,
-  Divider,
-  Center,
-  Box,
-  Badge,
-  Heading,
-  Button,
-  ButtonGroup,
-  Stack,
-  Spacer,
-} from "@chakra-ui/react";
-import { CreateListingForm } from "../components/atomic/molecules/CreateListingForm/CreateListingForm";
-
-import listingFactory from "../eth/ListingFactory.json";
-import { useContract, useListingFactoryContract } from "../hooks/useContract";
+import { Heading } from "@chakra-ui/react";
+import { getListingFactoryContract } from "../hooks/useContract";
 import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
 import { HeroSection } from "../components/atomic/organisms/HeroSection/HeroSection";
+import listingFactory from "../eth/ListingFactory.json";
+import { useFetchListingsByRange } from "../hooks/useFetchListingsByRange";
+import { Listings } from "../components/atomic/organisms/Listings/Listings";
+import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
 
 declare let window: any;
 
@@ -40,19 +27,24 @@ const MainGrid = styled.div`
 `;
 
 const Home: NextPage = () => {
-  const [provider, setProvider] = React.useState<any>();
   const [listings, setListings] = React.useState<any>();
+  const [wsProvider, setWsProvider] = React.useState<any>();
 
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
-  const listingFactoryContract = useListingFactoryContract();
+  const listingFactoryContract = getListingFactoryContract();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const eventProvider = new ethers.providers.WebSocketProvider(
+        window.ethereum
+      );
+      setWsProvider(eventProvider);
+    }
+  }, []);
 
   // FIXME: ABSTRACT TO HOOK
-
-  const eventProvider = new ethers.providers.WebSocketProvider(
-    "ws://localhost:8545"
-  );
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
@@ -72,8 +64,6 @@ const Home: NextPage = () => {
     },
 
     async createListing(title: string, description: string, cost: number) {
-      // const iface = new ethers.utils.Interface(LISTING_ABI);
-      console.log("fafafafa", title);
       if (typeof window.ethereum !== "undefined") {
         try {
           const response = await listingFactoryContract?.createListing(
@@ -91,7 +81,7 @@ const Home: NextPage = () => {
   return (
     <>
       <HeroSection submit={listingFactoryMethods.createListing} />
-
+      {listings && <Listings listings={listings} />}
       <div className={styles.container}>
         <Heading p={"8px 0 "} as="h4" size="md">
           Explore Listings:

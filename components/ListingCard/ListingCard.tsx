@@ -2,22 +2,18 @@ import React from "react";
 import beach from "../../assets/img/beach-house1.jpg";
 import { Wrap, WrapItem, Box } from "@chakra-ui/react";
 import Image from "next/image";
-import { ethers } from "ethers";
-import { useListingContract } from "../../hooks/useContract";
+import { getListingContract } from "../../hooks/useContract";
 declare let window: any;
 
 type Props = { address: string };
 export function ListingCard({ address }: Props) {
-  const listingContract = useListingContract(address);
+  const listingContract = getListingContract(address);
   const [listingData, setListingData] = React.useState();
-
-  console.log("listing contract ", listingContract);
 
   const getListingData = async () => {
     if (typeof window.ethereum !== "undefined") {
       try {
         const response = await listingContract?.getListingData();
-        console.log("[Listing Data ]", response);
         setListingData(response);
       } catch (error) {
         console.log(error);
@@ -78,7 +74,6 @@ export function ListingCard({ address }: Props) {
       </Wrap>
 
       <Wrap display="flex" mt="2" alignItems="center">
- 
         <Wrap as="div" ml="2" color="gray.600" fontSize="sm">
           <WrapItem> {address} </WrapItem>
         </Wrap>

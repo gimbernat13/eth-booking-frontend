@@ -2,6 +2,7 @@ import { Button, Heading } from "@chakra-ui/react";
 import React from "react";
 import styled from "styled-components";
 import styles from "../../../../styles/Home.module.css";
+import { SearchListingsForm } from "../../molecules/SearchListingsForm/SearchListingsForm";
 import { CreateListingModal } from "../CreateListingModal/CreateListingModal";
 
 type Props = { submit: any };
@@ -9,7 +10,7 @@ const StyledHero = styled.div`
   height: 100vh;
   width: 100%;
   display: grid;
-  grid-template-columns : 60% 1fr;
+  grid-template-columns: 70% 1fr;
   align-items: center;
   background-size: cover;
   background-repeat: none;
@@ -21,26 +22,21 @@ const StyledHero = styled.div`
   }
 `;
 
-
-export const HeroSection = ({submit}: Props) => {
+export const HeroSection = ({ submit }: Props) => {
   return (
-    <StyledHero>
-      <div className={styles.container}>
-        <Heading  fontSize={"3em"}>
-          Decentralized Travel
-        </Heading>
-        <Heading  fontSize={"5em"}>
-          Book, Travel, Earn Rewards
-        </Heading>
-        <Button mr={6} mt={6} colorScheme={"purple"}>
-          Explore Properties
-        </Button>
-        <CreateListingModal submit={submit} />
-      </div>
-      <div>
+    <div className={styles.container}>
+      <StyledHero>
+        <div className="left">
+          <Heading fontSize={"3em"}>Decentralized Travel</Heading>
+          <Heading fontSize={"5em"}>Book, Travel, Earn Rewards</Heading>
+          <Button mr={6} mt={6} variant="outline" colorScheme={"gray"}>
+            Explore Properties
+          </Button>
+          <CreateListingModal submit={submit} />
+        </div>
 
-
-      </div>
-    </StyledHero>
+        <SearchListingsForm />
+      </StyledHero>
+    </div>
   );
 };
