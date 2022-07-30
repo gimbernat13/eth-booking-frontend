@@ -18,7 +18,7 @@ declare global {
 const StyledSearchForm = styled.div`
   border: 1px solid lightgray;
   border-radius: var(--border-radius);
-  padding: 8px 10px;
+  padding: 4px 6px;
   /* background-color: purple; */
 `;
 

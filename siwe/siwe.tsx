@@ -39,9 +39,10 @@ export const SiweLogin = (props: Props) => {
       .then((res: any) => setAccount(res[0]))
       .catch(() => console.log("user rejected request"));
   }
-  account && provider.getBalance(account).then((result: any) => {
-    setBalance(ethers.utils.formatEther(result));
-  });
+  account &&
+    provider.getBalance(account).then((result: any) => {
+      setBalance(ethers.utils.formatEther(result));
+    });
 
   async function signInWithEthereum() {
     const message = createSiweMessage(
@@ -56,7 +57,7 @@ export const SiweLogin = (props: Props) => {
       {/* <Button onClick={signInWithEthereum}> Siwe </Button> */}
       <Button
         // overflowX={}
-
+        boxShadow={"md"}
         variant={"outline"}
         colorScheme="purple"
         onClick={connectWallet}

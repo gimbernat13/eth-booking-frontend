@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Avatar, AvatarBadge, Button, Spacer, Stack } from "@chakra-ui/react";
+import { Avatar, AvatarBadge, Button, Heading, Spacer, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -36,10 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Image height={"40px"} width={"40px"} src={logo} alt="" />
             </Link>
             <Spacer w={"10px"} />
-            <div> W3B Travel</div>
+            <Heading size={"md"} fontWeight={"semibold"}> W3B Travel</Heading>
           </div>
 
-          <Stack direction="row" alignItems={"center"} spacing={4}>
+          <Stack borderRadius={"48px"} boxShadow={"md"} direction="row" alignItems={"center"} spacing={4}>
             <SearchListingsForm />
           </Stack>
 

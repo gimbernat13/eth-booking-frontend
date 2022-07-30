@@ -26,7 +26,7 @@ export function ListingCard({ address }: Props) {
     imageAlt: "Rear view of modern home with pool",
     beds: 3,
     baths: 2,
-    formattedPrice: "$1,900.00",
+    formattedPrice: "1 ETH",
     reviewCount: 34,
     rating: 4,
   };
@@ -36,48 +36,66 @@ export function ListingCard({ address }: Props) {
   }, []);
 
   return (
-    <Box mr="1rem" cursor={"pointer"} borderRadius="lg">
-      <Wrap borderRadius="24px">
+    <Wrap
+      _hover={{
+        // boxShadow: "md",
+        // border: "1px solid lightgray",
+        transform: "translateY(-2px)",
+        filter: "brightness(1.1)",
+      }}
+      mr="1rem"
+      mb="1rem"
+      transition=".2s"
+      cursor={"pointer"}
+      borderRadius="xl"
+      border="1px solid transparent"
+    >
+      <Wrap borderRadius="xl">
         <Image src={property.imageUrl} alt={property.imageAlt} />
       </Wrap>
-
-      <Wrap display="flex" alignItems="baseline">
-        <Wrap
-          color="gray.500"
-          fontWeight="semibold"
-          // letterSpacing="wide"
-          fontSize="xs"
-          textTransform="uppercase"
-          ml="2"
-        >
-          <WrapItem>
-            {property.beds} beds &bull; {property.baths} baths
-          </WrapItem>
-        </Wrap>
-      </Wrap>
-
-      <Wrap
-        mt="1"
-        fontWeight="semibold"
-        as="h4"
-        lineHeight="tight"
-        noOfLines={1}
+      <Box
+        // p={3}
+        mr="1rem"
+        cursor={"pointer"}
+        borderRadius="lg"
       >
-        <WrapItem>{listingData && listingData[0]}</WrapItem>
-      </Wrap>
-
-      <Wrap>
-        <WrapItem>{property.formattedPrice}</WrapItem>
-        <Wrap as="span" color="gray.600" fontSize="sm">
-          <WrapItem>/ wk</WrapItem>
+        <Wrap display="flex" alignItems="baseline">
+          <Wrap
+            color="gray.500"
+            fontWeight="semibold"
+            // letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+            ml="2"
+          >
+            <WrapItem>3 Beds</WrapItem>
+          </Wrap>
         </Wrap>
-      </Wrap>
 
-      <Wrap display="flex" mt="2" alignItems="center">
-        <Wrap as="div" ml="2" color="gray.600" fontSize="sm">
-          <WrapItem> {address} </WrapItem>
+        <Wrap
+          mt="1"
+          fontWeight="semibold"
+          as="h4"
+          letterSpacing={"tight"}
+          lineHeight="tight"
+          noOfLines={1}
+        >
+          <WrapItem>{listingData && listingData[0]}</WrapItem>
         </Wrap>
-      </Wrap>
-    </Box>
+
+        <Wrap>
+          <WrapItem>{property.formattedPrice}</WrapItem>
+          <Wrap as="span" color="gray.600" fontSize="sm">
+            <WrapItem>/ Day</WrapItem>
+          </Wrap>
+        </Wrap>
+
+        <Wrap display="flex" mt="2" alignItems="center">
+          <Wrap as="div" ml="2" color="gray.600" fontSize="sm">
+            {/* <WrapItem> {address} </WrapItem> */}
+          </Wrap>
+        </Wrap>
+      </Box>
+    </Wrap>
   );
 }
