@@ -1,8 +1,9 @@
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import { Input, Button, Textarea, Box } from "@chakra-ui/react";
+import { Input, Button, Textarea, Box, Stack } from "@chakra-ui/react";
 import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
 import moment, { Moment } from "moment";
 import { DateRangePickerNormal } from "../DateRangePickerNormal/DateRangePickerNormal";
+import styled from "styled-components";
 interface MyFormValues {
   submit?: (_startDate: number, endDate: number) => void;
   // reservations: string[];
@@ -13,6 +14,13 @@ declare global {
     getDate(start?: number): [Date, Date];
   }
 }
+
+const StyledSearchForm = styled.div`
+  border: 1px solid lightgray;
+  border-radius: var(--border-radius);
+  padding: 8px 10px;
+  /* background-color: purple; */
+`;
 
 export function SearchListingsForm({ submit }: MyFormValues) {
   const formik = useFormik({
@@ -28,26 +36,40 @@ export function SearchListingsForm({ submit }: MyFormValues) {
   });
 
   return (
-    <Box bg={"white"} borderRadius={"xl"} boxShadow={"xl"} p={6}>
+    <StyledSearchForm>
       <FormikProvider value={formik}>
         <Form>
-          <label htmlFor="">Guests</label>
+          <Stack direction="row" alignItems={"center"} spacing={1}>
+            <div>
+              {/* <label htmlFor="">Guests</label> */}
+              <Field
+                component={Input}
+                name="DateRangePickerNormal"
+                className="form-control"
+                type="number"
+                placeHolder="Guests"
+              />
+            </div>
+            <div>
+              {/* <label htmlFor="">Guests</label> */}
+              <Field
+                component={Input}
+                name="DateRangePickerNormal"
+                className="form-control"
+                type="text"
+                placeHolder="Location"
+              />
+            </div>
 
-          <Field
-            component={Input}
-            name="DateRangePickerNormal"
-            className="form-control"
-            type="number"
-            placeHolder="Number of Guests"
-          />
-          <label htmlFor="">Search By Dates:</label>
-          <Field
-            component={DateRangePickerNormal}
-            name="DateRangePickerNormal"
-            className="form-control"
-          />
+            {/* <label htmlFor="">Search By Dates:</label> */}
+            <Field
+              component={DateRangePickerNormal}
+              name="DateRangePickerNormal"
+              className="form-control"
+            />
+          </Stack>
         </Form>
       </FormikProvider>
-    </Box>
+    </StyledSearchForm>
   );
 }

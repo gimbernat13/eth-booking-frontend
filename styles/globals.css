@@ -19,10 +19,14 @@ a {
 
 
 .nav {
+  z-index: 3;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: .2rem 1rem;
+  position: fixed;
+  width: 100%;
+  padding: .5rem 1rem;
+  background-color: white;
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 1px !important;
 }
 
@@ -36,8 +40,13 @@ p {
 }
 
 button,
-input, textarea {
+input,
+textarea {
   border-radius: var(--border-radius) !important;
+}
+
+input {
+  border: none !important;
 }
 
 .DateInput_input {
@@ -48,6 +57,13 @@ input, textarea {
 
 .DateRangePickerInput,
 .DateRangePickerInput__withBorder {
+  border: none !important;
   width: 100% !important;
   border-radius: var(--border-radius) !important;
+}
+
+.DayPicker,
+.DateRangePicker_picker {
+  border-radius: var(--border-radius) !important;
+
 }

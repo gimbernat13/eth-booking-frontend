@@ -61,7 +61,7 @@ export const SiweLogin = (props: Props) => {
         colorScheme="purple"
         onClick={connectWallet}
       >
-        {account ? account : "Connect Wallet"}
+        {account ? "Connected" : "Connect Wallet"}
       </Button>
       {account && (
         <Avatar

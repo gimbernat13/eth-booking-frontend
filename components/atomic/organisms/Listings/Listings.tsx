@@ -34,5 +34,5 @@ export const Listings = ({ listings }: Props) => {
     };
     checkAvailability();
   });
-  return <div>Listings</div>;
+  return <div></div>;
 };

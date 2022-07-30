@@ -9,10 +9,11 @@ import { useWeb3 } from "../hooks/useWeb3";
 import logo from "../assets/img/logo.png";
 import Link from "next/link";
 import { SiweLogin } from "../siwe/siwe";
+import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { currentAccount , balance } = useWeb3();
+  const { currentAccount, balance } = useWeb3();
   return (
     <ChakraProvider>
       <>
@@ -39,9 +40,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           </div>
 
           <Stack direction="row" alignItems={"center"} spacing={4}>
-           
+            <SearchListingsForm />
+          </Stack>
 
-            <Button> {balance} </Button>
+          <Stack direction="row" alignItems={"center"} spacing={4}>
             <SiweLogin />
             {/* You can also change the borderColor and bg of the badge */}
             {/* <Avatar>

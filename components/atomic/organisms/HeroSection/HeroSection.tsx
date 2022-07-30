@@ -34,8 +34,6 @@ export const HeroSection = ({ submit }: Props) => {
           </Button>
           <CreateListingModal submit={submit} />
         </div>
-
-        <SearchListingsForm />
       </StyledHero>
     </div>
   );
