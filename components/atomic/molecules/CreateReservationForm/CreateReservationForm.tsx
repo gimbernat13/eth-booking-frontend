@@ -23,13 +23,11 @@ export function CreateReservationForm({ submit, reservations }: MyFormValues) {
       const startTS = values.startDate._d.getTime();
       const endTS = values.endDate._d.getTime();
       submit(startTS, endTS);
-      
     },
   });
 
-
   return (
-    <Box bg={"white"} borderRadius={"lg"} boxShadow={"lg"}  p={6}>
+    <Box borderRadius={"lg"} boxShadow={"lg"} p={6}>
       <FormikProvider value={formik}>
         <Form>
           <label htmlFor="">Create a Reservation</label>

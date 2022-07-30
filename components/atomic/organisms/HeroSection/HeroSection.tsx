@@ -30,7 +30,7 @@ const Content = styled.div`
   grid-template-rows: 3fr 1fr;
   /* align-items: center; */
   position: relative;
-  z-index: 3;
+  z-index: 1;
   transition: all 0.4s;
 `;
 const Overlay = styled.div`
@@ -42,7 +42,7 @@ const Overlay = styled.div`
   background: #00000020;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 0;
   border-radius: var(--border-radius);
 `;
 
@@ -80,7 +80,7 @@ export const HeroSection = ({ submit }: Props) => {
         <div className="left">
           <Heading fontSize={"3em"}>Decentralized Travel</Heading>
           <Heading fontSize={"5em"}>Book, Travel, Earn Rewards</Heading>
-          <Button mr={6} mt={6} variant="outline" colorScheme={"gray"}>
+          <Button mr={6} mt={6} colorScheme={"purple"}>
             Explore Properties
           </Button>
           <CreateListingModal submit={submit} />

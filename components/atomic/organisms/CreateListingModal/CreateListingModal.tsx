@@ -29,6 +29,7 @@ export function CreateListingModal({ submit }: Props) {
         mr={6}
         mt={6}
         colorScheme={"purple"}
+        variant="outline"
       >
         Create a new Listing
       </Button>

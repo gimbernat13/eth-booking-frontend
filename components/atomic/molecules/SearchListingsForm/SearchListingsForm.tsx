@@ -16,10 +16,10 @@ declare global {
 }
 
 const StyledSearchForm = styled.div`
-  border: 1px solid lightgray;
+  border: 1px solid #a2a2a22f;
   border-radius: var(--border-radius);
   padding: 4px 6px;
-  /* background-color: purple; */
+  /* background-color: #a2a2a22f; */
 `;
 
 export function SearchListingsForm({ submit }: MyFormValues) {

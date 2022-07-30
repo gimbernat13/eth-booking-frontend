@@ -136,6 +136,10 @@ const Listing = (props: Props) => {
   console.log("listing data ", listingData);
   return (
     <div className={styles.container}>
+      <br />
+      <br />
+      <br />
+      
       <Heading>{listingData[0] && listingData[0]}</Heading>
       <Text>{listingData[1] && listingData[1]} </Text>
       <ListingPhotoGrid />

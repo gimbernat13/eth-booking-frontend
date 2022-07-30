@@ -1,6 +1,13 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Avatar, AvatarBadge, Button, Heading, Spacer, Stack } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarBadge,
+  Button,
+  Heading,
+  Spacer,
+  Stack,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -10,12 +17,14 @@ import logo from "../assets/img/logo.png";
 import Link from "next/link";
 import { SiweLogin } from "../siwe/siwe";
 import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
+import { ColorModeSwitcher } from "../components/atomic/atoms/ColorModeSwitcher/ColorModeSwitcher";
+import { theme } from "../styles/theme";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { currentAccount, balance } = useWeb3();
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <>
         <div
           style={{
@@ -36,23 +45,25 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Image height={"40px"} width={"40px"} src={logo} alt="" />
             </Link>
             <Spacer w={"10px"} />
-            <Heading size={"md"} fontWeight={"semibold"}> W3B Travel</Heading>
+            <Heading size={"md"} fontWeight={"semibold"}>
+              {" "}
+              W3B Travel
+            </Heading>
           </div>
 
-          <Stack borderRadius={"48px"} boxShadow={"md"} direction="row" alignItems={"center"} spacing={4}>
+          <Stack
+            borderRadius={"48px"}
+            boxShadow={"md"}
+            direction="row"
+            alignItems={"center"}
+            spacing={4}
+          >
             <SearchListingsForm />
           </Stack>
 
           <Stack direction="row" alignItems={"center"} spacing={4}>
             <SiweLogin />
-            {/* You can also change the borderColor and bg of the badge */}
-            {/* <Avatar>
-              <AvatarBadge
-                borderColor="papayawhip"
-                bg="tomato"
-                boxSize="1.25em"
-              />
-            </Avatar> */}
+            <ColorModeSwitcher />
           </Stack>
         </div>
         <Component {...pageProps} />

@@ -35,7 +35,7 @@ export const DateRangePickerNormal = ({
         focusedInput={focusedInput}
         onFocusChange={(focusedInput: any) => setFocusedInput(focusedInput)}
       />
-      <Button colorScheme={"purple"} type="submit">
+      <Button variant="outline" colorScheme={"purple"} type="submit">
         Search
       </Button>
     </>

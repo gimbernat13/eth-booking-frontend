@@ -9,10 +9,7 @@ import { Heading } from "@chakra-ui/react";
 import { getListingFactoryContract } from "../hooks/useContract";
 import { CreateListingModal } from "../components/atomic/organisms/CreateListingModal/CreateListingModal";
 import { HeroSection } from "../components/atomic/organisms/HeroSection/HeroSection";
-import listingFactory from "../eth/ListingFactory.json";
-import { useFetchListingsByRange } from "../hooks/useFetchListingsByRange";
 import { Listings } from "../components/atomic/organisms/Listings/Listings";
-import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
 
 declare let window: any;
 

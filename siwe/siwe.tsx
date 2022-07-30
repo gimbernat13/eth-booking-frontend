@@ -55,16 +55,17 @@ export const SiweLogin = (props: Props) => {
   return (
     <>
       {/* <Button onClick={signInWithEthereum}> Siwe </Button> */}
-      <Button
-        // overflowX={}
-        boxShadow={"md"}
-        variant={"outline"}
-        colorScheme="purple"
-        onClick={connectWallet}
-      >
-        {account ? "Connected" : "Connect Wallet"}
-      </Button>
-      {account && (
+      {account ? (
+        <Button
+          // overflowX={}
+          boxShadow={"md"}
+          variant={"outline"}
+          colorScheme="purple"
+          onClick={connectWallet}
+        >
+          Connect Wallet
+        </Button>
+      ) : (
         <Avatar
           src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
           size="md"

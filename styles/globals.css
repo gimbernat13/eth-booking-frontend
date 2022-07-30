@@ -1,6 +1,6 @@
 html,
 body {
-  background: radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #F6F6F6 !important;
+  /* background: radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 !important; */
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -26,7 +26,7 @@ a {
   position: fixed;
   width: 100%;
   padding: .5rem 1rem;
-  background-color: white;
+  /* background-color: white; */
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 1px !important;
 }
 
@@ -49,10 +49,20 @@ textarea {
   border: none !important;
 }
 
+.DateInput {}
+
 .DateInput_input {
   /* border: none; */
+
   border-radius: var(--border-radius) !important;
 
+}
+
+.DateRangePicker {
+  position: relative !important;
+  z-index: 4 !important;
+  background: none !important;
+  ;
 }
 
 .DateRangePickerInput,
@@ -60,6 +70,7 @@ textarea {
   border: none !important;
   width: 100% !important;
   border-radius: var(--border-radius) !important;
+  /* background-color: black !important; */
 }
 
 .DayPicker,
