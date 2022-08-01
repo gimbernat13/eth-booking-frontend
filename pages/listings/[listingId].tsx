@@ -113,8 +113,6 @@ const Listing = (props: Props) => {
           const createReservation = await contract?.createReservation(
             1659567073,
             bookedDays,
-            // _startDate / 1000,
-            // _startDate / 1000,
             {
               value: ethers.utils.parseUnits(total.toString(), "wei"),
             }
@@ -139,7 +137,7 @@ const Listing = (props: Props) => {
       <br />
       <br />
       <br />
-      
+
       <Heading>{listingData[0] && listingData[0]}</Heading>
       <Text>{listingData[1] && listingData[1]} </Text>
       <ListingPhotoGrid />
