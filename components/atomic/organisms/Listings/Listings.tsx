@@ -8,6 +8,8 @@ type Props = {
 };
 
 export const Listings = ({ listings, wantedDates }: Props) => {
+  const [availableListings, setAvailableListings] = React.useState<any>([]);
+
   const wantedDates1 = [
     "2022-08-03",
     "2022-08-04",
@@ -29,28 +31,52 @@ export const Listings = ({ listings, wantedDates }: Props) => {
     "0x856e4424f806D16E8CBC702B3c0F2ede5468eae8",
   ];
   console.log("[LISTINGS]  ", listings);
-  //   const listingContract = getListingContract();
+
+  React.useEffect(() => {
+    showAvailableListings();
+  }, []);
+
+  const showAvailableListings = async () => {
+    const addresses: string[] = [];
+    listings.forEach((address) => {
+      const listingContract = getListingContract(address);
+      const getAllReservations = async () => {
+        try {
+          const reservations = await listingContract?.getAllReservations();
+          if (!wantedDates1.some((r) => reservations.includes(r))) {
+            addresses.push(address);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAllReservations();
+    });
+
+    setAvailableListings(addresses);
+  };
+
+  console.log("avialable listings ", availableListings);
 
   listings.forEach((address) => {
     const listingContract = getListingContract(address);
     const getAllReservations = async () => {
       try {
-        const response = await listingContract?.getAllReservations();
-        console.log("Reservations   :", response);
-
-        return response;
+        const reservations = await listingContract?.getAllReservations();
+        const hasAnyDateBooked = wantedDates1.some((r) =>
+          reservations.includes(r)
+        );
+        // console.log("Reservations   :", response);
+        return reservations;
       } catch (error) {
         console.log(error);
       }
     };
-    getAllReservations();
+    const reservations = getAllReservations();
 
-    const filterListings = () => {
-      listings1.filter(
-        () => !wantedDates1.some((r) => reservations2.includes(r))
-      );
-    };
-
+    const caca = listings1.filter(
+      () => !wantedDates1.some((r) => reservations2.includes(r))
+    );
   });
   return <div></div>;
 };
