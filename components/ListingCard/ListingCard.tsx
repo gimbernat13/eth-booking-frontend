@@ -41,7 +41,7 @@ export function ListingCard({ address }: Props) {
         // boxShadow: "md",
         // border: "1px solid lightgray",
         transform: "translateY(-2px)",
-        filter: "brightness(1.1)",
+        filter: "brightness(.8)",
       }}
       mr="1rem"
       mb="1rem"

@@ -13,11 +13,6 @@ import { Listings } from "../components/atomic/organisms/Listings/Listings";
 
 declare let window: any;
 
-const StyledListingCardGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  width: 100%;
-`;
 const MainGrid = styled.div`
   /* display: grid;
   grid-template-columns: auto; */
@@ -78,24 +73,13 @@ const Home: NextPage = () => {
   return (
     <>
       <HeroSection submit={listingFactoryMethods.createListing} />
-      {listings && <Listings listings={listings} />}
+
       <div className={styles.container}>
         <Heading p={"8px 0 "} as="h4" size="md">
           Explore Listings:
         </Heading>{" "}
         <MainGrid>
-          <StyledListingCardGrid>
-            {listings &&
-              listings.map((listing: any) => {
-                return (
-                  <Link key={listing} href={`/listings/${listing}`}>
-                    <div>
-                      <ListingCard address={listing} />
-                    </div>
-                  </Link>
-                );
-              })}
-          </StyledListingCardGrid>
+          {listings && <Listings listings={listings} />}
 
           <br />
 
