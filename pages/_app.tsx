@@ -1,17 +1,10 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import {
-  Avatar,
-  AvatarBadge,
-  Button,
-  Heading,
-  Spacer,
-  Stack,
-} from "@chakra-ui/react";
+import { Heading, Spacer, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useWeb3 } from "../hooks/useWeb3";
 import logo from "../assets/img/logo.png";
 import Link from "next/link";
@@ -19,10 +12,65 @@ import { SiweLogin } from "../siwe/siwe";
 import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
 import { ColorModeSwitcher } from "../components/atomic/atoms/ColorModeSwitcher/ColorModeSwitcher";
 import { theme } from "../styles/theme";
+import { getListingFactoryContract } from "../hooks/useContract";
+import { ethers } from "ethers";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { currentAccount, balance } = useWeb3();
+
+  const [listings, setListings] = React.useState<any>();
+  const [wsProvider, setWsProvider] = React.useState<any>();
+
+  useEffect(() => {
+    listingFactoryMethods.getListings();
+  }, []);
+  const listingFactoryContract = getListingFactoryContract();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const eventProvider = new ethers.providers.WebSocketProvider(
+        window.ethereum
+      );
+      setWsProvider(eventProvider);
+    }
+  }, []);
+
+  // FIXME: ABSTRACT TO HOOK
+
+  // =============== LISTING ==================================
+  const listingFactoryMethods = {
+    async getListings() {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          console.log(
+            "fetching listings",
+            await listingFactoryContract?.getListings()
+          );
+          const response = await listingFactoryContract?.getListings();
+          setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
+    async createListing(title: string, description: string, cost: number) {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          const response = await listingFactoryContract?.createListing(
+            title,
+            description,
+            cost
+          );
+          console.log("response ", response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <>
@@ -66,7 +114,12 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ColorModeSwitcher />
           </Stack>
         </div>
-        <Component {...pageProps} />
+
+        <Component
+          methods={listingFactoryMethods}
+          data={listings}
+          {...pageProps}
+        />
       </>
     </ChakraProvider>
   );

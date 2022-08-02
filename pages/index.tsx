@@ -18,58 +18,9 @@ const MainGrid = styled.div`
   grid-template-columns: auto; */
 `;
 
-const Home: NextPage = () => {
-  const [listings, setListings] = React.useState<any>();
-  const [wsProvider, setWsProvider] = React.useState<any>();
-
-  useEffect(() => {
-    listingFactoryMethods.getListings();
-  }, []);
-  const listingFactoryContract = getListingFactoryContract();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const eventProvider = new ethers.providers.WebSocketProvider(
-        window.ethereum
-      );
-      setWsProvider(eventProvider);
-    }
-  }, []);
-
-  // FIXME: ABSTRACT TO HOOK
-
-  // =============== LISTING ==================================
-  const listingFactoryMethods = {
-    async getListings() {
-      if (typeof window.ethereum !== "undefined") {
-        try {
-          console.log(
-            "fetching listings",
-            await listingFactoryContract?.getListings()
-          );
-          const response = await listingFactoryContract?.getListings();
-          setListings(response);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-
-    async createListing(title: string, description: string, cost: number) {
-      if (typeof window.ethereum !== "undefined") {
-        try {
-          const response = await listingFactoryContract?.createListing(
-            title,
-            description,
-            cost
-          );
-          console.log("response ", response);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-  };
+const Home: NextPage = (props: any) => {
+  const { listings, methods: listingFactoryMethods } = props;
+  console.log("props are ", props);
   return (
     <>
       <HeroSection submit={listingFactoryMethods.createListing} />
