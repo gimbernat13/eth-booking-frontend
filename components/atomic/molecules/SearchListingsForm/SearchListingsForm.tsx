@@ -4,9 +4,11 @@ import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
 import moment, { Moment } from "moment";
 import { DateRangePickerNormal } from "../DateRangePickerNormal/DateRangePickerNormal";
 import styled from "styled-components";
+import { useContext } from "react";
+import { SearchContext } from "../../../../context/searchContext";
+import { setDates } from "../../../../context/actionNames";
 interface MyFormValues {
   submit?: (_startDate: number, endDate: number) => void;
-  // reservations: string[];
 }
 
 declare global {
@@ -23,17 +25,38 @@ const StyledSearchForm = styled.div`
 `;
 
 export function SearchListingsForm({ submit }: MyFormValues) {
+  const { state, dispatch } = useContext(SearchContext);
+
   const formik = useFormik({
     initialValues: {
       startDate: moment(),
       endDate: moment(),
     },
     onSubmit: (values) => {
-      const startTS = values.startDate._d.getTime();
-      const endTS = values.endDate._d.getTime();
-      // submit(startTS, endTS);
+      enumerateDaysBetweenDates(values.startDate, values.endDate);
+      // dispatch({
+      //   type: setDates,
+      //   payload: values,
+      // });
     },
   });
+
+  const enumerateDaysBetweenDates = function (
+    _startDate: Moment,
+    _endDate: Moment
+  ) {
+    var dates = [];
+    var currDate = moment(_startDate).startOf("day");
+    var lastDate = moment(_endDate).startOf("day");
+
+    while (currDate.add(1, "days").diff(lastDate) < 0) {
+      const format2 = "YYYY-MM-DD";
+
+      dates.push(currDate.clone().format(format2));
+    }
+    console.log("dates ", dates);
+    return dates;
+  };
 
   return (
     <StyledSearchForm>
@@ -41,7 +64,6 @@ export function SearchListingsForm({ submit }: MyFormValues) {
         <Form>
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <div>
-              {/* <label htmlFor="">Guests</label> */}
               <Field
                 component={Input}
                 name="DateRangePickerNormal"
@@ -51,7 +73,6 @@ export function SearchListingsForm({ submit }: MyFormValues) {
               />
             </div>
             <div>
-              {/* <label htmlFor="">Guests</label> */}
               <Field
                 component={Input}
                 name="DateRangePickerNormal"
@@ -60,8 +81,6 @@ export function SearchListingsForm({ submit }: MyFormValues) {
                 placeHolder="Location"
               />
             </div>
-
-            {/* <label htmlFor="">Search By Dates:</label> */}
             <Field
               component={DateRangePickerNormal}
               name="DateRangePickerNormal"

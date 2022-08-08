@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { SearchContext } from "../../../../context/searchContext";
 import { getListingContract } from "../../../../hooks/useContract";
 import { ListingCard } from "../../../ListingCard/ListingCard";
 declare let window: any;
@@ -31,7 +32,9 @@ const StyledListingCardGrid = styled.div`
 
 export const Listings = ({ listings, wantedDates }: Props) => {
   const [availableListings, setAvailableListings] = React.useState<any>([]);
+  const { state, dispatch } = useContext(SearchContext);
 
+  console.log("nigger bitch state is ", state);
   console.log("[LISTINGS]  ", listings);
 
   const showAvailableListings = async () => {
@@ -64,8 +67,8 @@ export const Listings = ({ listings, wantedDates }: Props) => {
 
   return (
     <StyledListingCardGrid>
-      {availableListings.map((address: string) => (
-        <ListingCard key={address} address={address} />
+      {availableListings.map((address: string, i: number) => (
+        <ListingCard key={address + i} address={address} />
       ))}
     </StyledListingCardGrid>
   );

@@ -14,6 +14,10 @@ import { ColorModeSwitcher } from "../components/atomic/atoms/ColorModeSwitcher/
 import { theme } from "../styles/theme";
 import { getListingFactoryContract } from "../hooks/useContract";
 import { ethers } from "ethers";
+import {
+  SearchContext,
+  SearchContextProvider,
+} from "../context/searchContext";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -72,56 +76,57 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      <>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-          className="nav"
-        >
+    <SearchContextProvider>
+      <ChakraProvider theme={theme}>
+        <>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
+            className="nav"
           >
-            <Link href={"/"}>
-              <Image height={"40px"} width={"40px"} src={logo} alt="" />
-            </Link>
-            <Spacer w={"10px"} />
-            <Heading size={"md"} fontWeight={"semibold"}>
-              {" "}
-              W3B Travel
-            </Heading>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Link href={"/"}>
+                <Image height={"40px"} width={"40px"} src={logo} alt="" />
+              </Link>
+              <Spacer w={"10px"} />
+              <Heading size={"md"} fontWeight={"semibold"}>
+                {" "}
+                W3B Travel
+              </Heading>
+            </div>
+
+            <Stack
+              borderRadius={"48px"}
+              boxShadow={"md"}
+              direction="row"
+              alignItems={"center"}
+              spacing={4}
+            >
+              <SearchListingsForm />
+            </Stack>
+
+            <Stack direction="row" alignItems={"center"} spacing={4}>
+              <SiweLogin />
+              <ColorModeSwitcher />
+            </Stack>
           </div>
-
-          <Stack
-            borderRadius={"48px"}
-            boxShadow={"md"}
-            direction="row"
-            alignItems={"center"}
-            spacing={4}
-          >
-            <SearchListingsForm />
-          </Stack>
-
-          <Stack direction="row" alignItems={"center"} spacing={4}>
-            <SiweLogin />
-            <ColorModeSwitcher />
-          </Stack>
-        </div>
-
-        <Component
-          methods={listingFactoryMethods}
-          data={listings}
-          {...pageProps}
-        />
-      </>
-    </ChakraProvider>
+          <Component
+            methods={listingFactoryMethods}
+            data={listings}
+            {...pageProps}
+          />
+        </>
+      </ChakraProvider>
+    </SearchContextProvider>
   );
 }
 

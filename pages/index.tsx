@@ -19,7 +19,7 @@ const MainGrid = styled.div`
 `;
 
 const Home: NextPage = (props: any) => {
-  const { listings, methods: listingFactoryMethods } = props;
+  const { data: listings, methods: listingFactoryMethods } = props;
   console.log("props are ", props);
   return (
     <>
