@@ -1,12 +1,12 @@
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import { Input, Button, Textarea, Box, Stack } from "@chakra-ui/react";
-import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
+import { Input, Stack } from "@chakra-ui/react";
 import moment, { Moment } from "moment";
 import { DateRangePickerNormal } from "../DateRangePickerNormal/DateRangePickerNormal";
 import styled from "styled-components";
 import { useContext } from "react";
 import { SearchContext } from "../../../../context/searchContext";
-import { setDates } from "../../../../context/actionNames";
+import { setDates, setRange } from "../../../../context/actionNames";
+
 interface MyFormValues {
   submit?: (_startDate: number, endDate: number) => void;
 }
@@ -20,8 +20,7 @@ declare global {
 const StyledSearchForm = styled.div`
   border: 1px solid #a2a2a22f;
   border-radius: var(--border-radius);
-  padding: 4px 6px;
-  /* background-color: #a2a2a22f; */
+  /* padding: 4px 6px; */
 `;
 
 export function SearchListingsForm({ submit }: MyFormValues) {
@@ -33,11 +32,14 @@ export function SearchListingsForm({ submit }: MyFormValues) {
       endDate: moment(),
     },
     onSubmit: (values) => {
-      enumerateDaysBetweenDates(values.startDate, values.endDate);
-      // dispatch({
-      //   type: setDates,
-      //   payload: values,
-      // });
+      dispatch({
+        type: setDates,
+        payload: values,
+      });
+      dispatch({
+        type: setRange,
+        payload: enumerateDaysBetweenDates(values.startDate, values.endDate),
+      });
     },
   });
 
@@ -45,16 +47,13 @@ export function SearchListingsForm({ submit }: MyFormValues) {
     _startDate: Moment,
     _endDate: Moment
   ) {
-    var dates = [];
-    var currDate = moment(_startDate).startOf("day");
-    var lastDate = moment(_endDate).startOf("day");
+    var currentDate = _startDate.clone(),
+      dates = [];
 
-    while (currDate.add(1, "days").diff(lastDate) < 0) {
-      const format2 = "YYYY-MM-DD";
-
-      dates.push(currDate.clone().format(format2));
+    while (currentDate.isSameOrBefore(_endDate)) {
+      dates.push(currentDate.format("YYYY-MM-DD"));
+      currentDate.add(1, "days");
     }
-    console.log("dates ", dates);
     return dates;
   };
 

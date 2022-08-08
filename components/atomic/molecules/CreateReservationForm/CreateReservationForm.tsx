@@ -1,7 +1,7 @@
 import { Field, Form, FormikProvider, useFormik } from "formik";
-import { Input, Button, Textarea, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { DatePickerWithFormik } from "../DateRangePicker/DateRangePicker";
-import moment, { Moment } from "moment";
+import moment from "moment";
 interface MyFormValues {
   submit: (_startDate: number, endDate: number) => void;
   reservations: string[];
