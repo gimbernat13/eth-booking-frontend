@@ -5,7 +5,7 @@ type Props = {};
 const StyledPhotoGrid = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  height: 60vh;
+  height: 50vh;
   align-items: center;
   justify-content: center;
   gap: 5px;

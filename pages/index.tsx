@@ -23,7 +23,7 @@ const Home: NextPage = (props: any) => {
   console.log("props are ", props);
   return (
     <>
-      {/* <HeroSection submit={listingFactoryMethods.createListing} /> */}
+      <HeroSection submit={listingFactoryMethods.createListing} />
 
       <div className={styles.container}>
         <Heading p={"8px 0 "} as="h4" size="md">

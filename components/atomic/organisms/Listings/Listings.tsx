@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { SearchContext } from "../../../../context/searchContext";
@@ -20,6 +21,9 @@ export const Listings = ({ listings }: Props) => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const filterListings = async () => {
+    console.log("wanted dates ", searchState.wantedDates);
+    console.log("listings dates ", listings);
+
     setIsLoading(true);
     const addresses: string[] = [];
     listings.forEach((address) => {
@@ -27,13 +31,17 @@ export const Listings = ({ listings }: Props) => {
       const getAllReservations = async () => {
         try {
           const reservations = await listingContract?.getAllReservations();
+          console.log("reservations are ", reservations);
           if (
-            !searchState.wantedDates.some((r: string) =>
-              reservations.includes(r)
-            )
+            !searchState.wantedDates.some((r: string) => {
+              console.log("reservation-- ", r);
+              console.log("is included ", reservations.includes(r));
+              return reservations.includes(r);
+            })
           ) {
             setIsLoading(false);
-            setAvailableListings((prevState: any) => [...prevState, address]);
+            console.log("pushed address", address);
+            addresses.push(address);
           }
         } catch (error) {
           console.log(error);
@@ -41,18 +49,23 @@ export const Listings = ({ listings }: Props) => {
       };
       getAllReservations();
     });
+    console.log("available addresses are ", addresses);
     setAvailableListings(addresses);
   };
 
   React.useEffect(() => {
     filterListings();
-  }, []);
+  }, [searchState.wantedDates]);
 
   return (
     <StyledListingCardGrid>
       {!isLoading &&
         availableListings.map((address: string, i: number) => (
-          <ListingCard key={address + i} address={address} />
+          <Link key={address + i} href={`/listings/${address}`}>
+            <div>
+              <ListingCard key={address + i} address={address} />
+            </div>
+          </Link>
         ))}
     </StyledListingCardGrid>
   );

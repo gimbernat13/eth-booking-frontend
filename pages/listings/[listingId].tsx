@@ -14,6 +14,7 @@ import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatur
 import { CreateReservationForm } from "../../components/atomic/molecules/CreateReservationForm/CreateReservationForm";
 
 type Props = {};
+declare let window: any;
 
 const StyledInfoGrid = styled.div`
   display: grid;
@@ -22,7 +23,6 @@ const StyledInfoGrid = styled.div`
   gap: 5rem;
 `;
 
-declare let window: any;
 
 interface ListingDataProps {
   title: string;
@@ -111,7 +111,7 @@ const Listing = (props: Props) => {
 
         try {
           const createReservation = await contract?.createReservation(
-            1659567073,
+            1662784567,
             bookedDays,
             {
               value: ethers.utils.parseUnits(total.toString(), "wei"),
@@ -125,13 +125,6 @@ const Listing = (props: Props) => {
     },
   };
 
-  const newDate = new Date("2022-10-22");
-
-  const mappedReservations = reservations?.map((res: string) => {
-    console.log(new Date(res));
-  });
-
-  console.log("listing data ", listingData);
   return (
     <div className={styles.container}>
       <br />

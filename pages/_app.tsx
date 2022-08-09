@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [listings, setListings] = React.useState<any>();
   const [wsProvider, setWsProvider] = React.useState<any>();
-
+  console.log("all listings " , listings) 
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);

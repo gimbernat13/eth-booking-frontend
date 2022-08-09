@@ -78,7 +78,7 @@ export const HeroSection = ({ submit }: Props) => {
     <div className={styles.container}>
       <StyledHero>
         <div className="left">
-          <Heading fontSize={"3em"}>Decentralized Travel</Heading>
+          <Heading fontSize={"3em"}>On-chain Booking</Heading>
           <Heading fontSize={"5em"}>Book, Travel, Earn Rewards</Heading>
           <Button mr={6} mt={6} colorScheme={"purple"}>
             Explore Properties

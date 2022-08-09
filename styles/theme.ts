@@ -19,7 +19,7 @@ export const theme = extendTheme({
       ".nav": {
         bg: mode(
           "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #F6F6F6",
-          "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
+          "black"
         )(props),
       },
       ".DayPicker": {
