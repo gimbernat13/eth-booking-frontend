@@ -23,7 +23,6 @@ const StyledInfoGrid = styled.div`
   gap: 5rem;
 `;
 
-
 interface ListingDataProps {
   title: string;
   description: string;
@@ -84,8 +83,6 @@ const Listing = (props: Props) => {
         try {
           const response = await contract?.getAllReservations();
 
-          console.log("[Listing Reservations ]", response);
-
           setReservations(response);
         } catch (error) {
           console.log("Ftetch error", error);
@@ -101,14 +98,6 @@ const Listing = (props: Props) => {
         );
         const costPerDayz = ethers.BigNumber.from(costPerDay).toNumber();
         const total = costPerDayz * bookedDays;
-
-        console.log("[START DATE] ", _startDate / 1000);
-        console.log("[END DATE] ", _endDate / 1000);
-
-        console.log("[Days Booked] ", bookedDays);
-        console.log("[Cost Per Day ] ", costPerDay.toNumber());
-        console.log("[TOTAL] ", total);
-
         try {
           const createReservation = await contract?.createReservation(
             1662784567,

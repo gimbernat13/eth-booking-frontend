@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { Heading, Spacer, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { ChakraProvider } from "@chakra-ui/react";
+import "react-toastify/dist/ReactToastify.css";
 
 import React, { useEffect } from "react";
 import { useWeb3 } from "../hooks/useWeb3";
@@ -15,6 +16,8 @@ import { theme } from "../styles/theme";
 import { getListingFactoryContract } from "../hooks/useContract";
 import { ethers } from "ethers";
 import { SearchContext, SearchContextProvider } from "../context/searchContext";
+import { ToastContextProvider } from "../context/ToastContext";
+import { toast, ToastContainer } from "react-toastify";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [listings, setListings] = React.useState<any>();
   const [wsProvider, setWsProvider] = React.useState<any>();
-  console.log("all listings ", listings);
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
@@ -40,14 +42,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   // FIXME: ABSTRACT TO HOOK
 
   const handleCreateListing = async () => {
-    console.log("create listing event ");
     if (typeof window.ethereum !== "undefined") {
       try {
-        console.log(
-          await listingFactoryContract?.on("CreateListing", () => {
-            console.log("ESta mierda ya se reservo");
-          })
-        );
+        const notify = () => toast("Wow so smert, much thoughts, ingelegant!");
+
+        await listingFactoryContract?.on("CreateListing", () => {
+          notify();
+        });
       } catch (error) {
         console.log(error);
       }
@@ -75,7 +76,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             description,
             cost
           );
-          console.log("response ", response);
           handleCreateListing();
         } catch (error) {
           console.log(error);
@@ -85,57 +85,60 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <SearchContextProvider>
-      <ChakraProvider theme={theme}>
-        <>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-            className="nav"
-          >
+    <ToastContextProvider>
+      <ToastContainer />
+      <SearchContextProvider>
+        <ChakraProvider theme={theme}>
+          <>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
               }}
+              className="nav"
             >
-              <Link href={"/"}>
-                <Image height={"40px"} width={"40px"} src={logo} alt="" />
-              </Link>
-              <Spacer w={"10px"} />
-              <Heading size={"md"} fontWeight={"semibold"}>
-                {" "}
-                W3B Travel
-              </Heading>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Link href={"/"}>
+                  <Image height={"40px"} width={"40px"} src={logo} alt="" />
+                </Link>
+                <Spacer w={"10px"} />
+                <Heading size={"md"} fontWeight={"semibold"}>
+                  {" "}
+                  W3B Travel
+                </Heading>
+              </div>
+
+              <Stack
+                borderRadius={"48px"}
+                boxShadow={"md"}
+                direction="row"
+                alignItems={"center"}
+                spacing={4}
+              >
+                <SearchListingsForm />
+              </Stack>
+
+              <Stack direction="row" alignItems={"center"} spacing={4}>
+                <SiweLogin />
+                <ColorModeSwitcher />
+              </Stack>
             </div>
-
-            <Stack
-              borderRadius={"48px"}
-              boxShadow={"md"}
-              direction="row"
-              alignItems={"center"}
-              spacing={4}
-            >
-              <SearchListingsForm />
-            </Stack>
-
-            <Stack direction="row" alignItems={"center"} spacing={4}>
-              <SiweLogin />
-              <ColorModeSwitcher />
-            </Stack>
-          </div>
-          <Component
-            methods={listingFactoryMethods}
-            data={listings}
-            {...pageProps}
-          />
-        </>
-      </ChakraProvider>
-    </SearchContextProvider>
+            <Component
+              methods={listingFactoryMethods}
+              data={listings}
+              {...pageProps}
+            />
+          </>
+        </ChakraProvider>
+      </SearchContextProvider>
+    </ToastContextProvider>
   );
 }
 

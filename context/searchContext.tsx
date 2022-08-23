@@ -30,7 +30,6 @@ export function reducer(state: any, action: any) {
         endDate: action.payload.endDate,
       };
     case setRange:
-      console.log();
       return {
         ...state,
         wantedDates: action.payload,
