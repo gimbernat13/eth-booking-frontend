@@ -42,17 +42,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   // FIXME: ABSTRACT TO HOOK
 
   const handleCreateListing = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        const notify = () => toast("Wow so smert, much thoughts, ingelegant!");
-
-        await listingFactoryContract?.on("CreateListing", () => {
-          notify();
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    await listingFactoryContract?.on("CreateListing", () => {
+      console.log("Wow so smert, much thoughts, ingelegant!");
+    });
   };
 
   // =============== LISTING ==================================
