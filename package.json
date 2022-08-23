@@ -22,6 +22,7 @@
     "react-dates": "^21.8.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
+    "react-toastify": "^9.0.8",
     "react-transition-state": "^1.2.0-alpha.5",
     "react-with-direction": "^1.4.0",
     "siwe": "^1.1.6",

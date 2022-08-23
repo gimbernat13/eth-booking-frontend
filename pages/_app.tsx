@@ -14,10 +14,7 @@ import { ColorModeSwitcher } from "../components/atomic/atoms/ColorModeSwitcher/
 import { theme } from "../styles/theme";
 import { getListingFactoryContract } from "../hooks/useContract";
 import { ethers } from "ethers";
-import {
-  SearchContext,
-  SearchContextProvider,
-} from "../context/searchContext";
+import { SearchContext, SearchContextProvider } from "../context/searchContext";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -25,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const [listings, setListings] = React.useState<any>();
   const [wsProvider, setWsProvider] = React.useState<any>();
-  console.log("all listings " , listings) 
+  console.log("all listings ", listings);
   useEffect(() => {
     listingFactoryMethods.getListings();
   }, []);
@@ -42,15 +39,26 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // FIXME: ABSTRACT TO HOOK
 
+  const handleCreateListing = async () => {
+    console.log("create listing event ");
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        console.log(
+          await listingFactoryContract?.on("CreateListing", () => {
+            console.log("ESta mierda ya se reservo");
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   // =============== LISTING ==================================
   const listingFactoryMethods = {
     async getListings() {
       if (typeof window.ethereum !== "undefined") {
         try {
-          console.log(
-            "fetching listings",
-            await listingFactoryContract?.getListings()
-          );
           const response = await listingFactoryContract?.getListings();
           setListings(response);
         } catch (error) {
@@ -68,6 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             cost
           );
           console.log("response ", response);
+          handleCreateListing();
         } catch (error) {
           console.log(error);
         }
