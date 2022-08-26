@@ -9,14 +9,15 @@ import React, { useEffect } from "react";
 import { useWeb3 } from "../hooks/useWeb3";
 import logo from "../assets/img/logo.png";
 import Link from "next/link";
+import { SiweLogin } from "../siwe/siwe";
 import { SearchListingsForm } from "../components/atomic/molecules/SearchListingsForm/SearchListingsForm";
 import { ColorModeSwitcher } from "../components/atomic/atoms/ColorModeSwitcher/ColorModeSwitcher";
 import { theme } from "../styles/theme";
 import { getListingFactoryContract } from "../hooks/useContract";
 import { ethers } from "ethers";
-import { SearchContextProvider } from "../context/searchContext";
+import { SearchContext, SearchContextProvider } from "../context/searchContext";
 import { ToastContextProvider } from "../context/ToastContext";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Web3ConnectModal from "../components/atomic/organisms/Web3Modal/Web3ConnectModal";
 declare var window: any;
 
@@ -49,6 +50,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
+    async getListings() {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          const response = await listingFactoryContract?.getListings();
+          setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
     async createListing(title: string, description: string, cost: number) {
       if (typeof window.ethereum !== "undefined") {
         try {
