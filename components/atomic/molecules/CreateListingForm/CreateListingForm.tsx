@@ -10,6 +10,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
   const [fileImg, setFileImg] = useState<any>("");
 
   const uploadFile = async () => {
+    console.log("uplaoding to ipfs ");
     const formData = new FormData();
     formData.append("file", fileImg);
     const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
@@ -29,7 +30,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
       // const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
       const ImgHash = `ipfs://${resFile}`;
 
-      console.log("niggas love white pussi ", resFile);
+      console.log("niggas love white pussi ", resFile.body);
     } catch (error) {
       console.log(error);
     }
@@ -43,8 +44,8 @@ export function CreateListingForm({ submit }: MyFormValues) {
       photos: [],
     },
     onSubmit: (values) => {
-      console.log(...Object.values(values));
-      submit(values.title, values.description, values.cost);
+      // console.log(...Object.values(values));
+      // submit(values.title, values.description, values.cost);
       uploadFile();
       // submit(...Object.values(values));
     },
