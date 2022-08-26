@@ -1,36 +1,38 @@
 import { useFormik } from "formik";
 import { Input, Button, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
-import { create } from "ipfs-http-client";
 
-const client = create("https://ipfs.infura.io:5001/api/v0");
 interface MyFormValues {
   submit: (title: string, description: string, cost: number) => void;
 }
 
 export function CreateListingForm({ submit }: MyFormValues) {
-  const [fileImg, setFileImg] = useState("");
+  const [fileImg, setFileImg] = useState<any>("");
 
   const uploadFile = async () => {
     const formData = new FormData();
     formData.append("file", fileImg);
     const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
 
+    console.log("bitch eis ", process.env.PINATA_API_KEY);
+
     try {
-      let promise = fetch(url, {
+      const resFile = await fetch(url, {
         method: "POST",
         body: formData,
         headers: {
-          pinata_api_key: `${process.env.PINATA_API_KEY}`,
-          pinata_secret_api_key: `${process.env.PINATA_API_SECRET}`,
-          "Content-Type": "multipart/form-data",
+          pinata_api_key: `b334b52b019250ea2a5f`,
+          pinata_secret_api_key:
+            "dbc8def6c41f18dee377783af376112ab9bf6605ce14141ad84fa7c8a7a8ad5a",
         },
       });
+      // const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+      const ImgHash = `ipfs://${resFile}`;
+
+      console.log("niggas love white pussi ", resFile);
     } catch (error) {
       console.log(error);
     }
-
-    return movies;
   };
 
   const formik = useFormik({
@@ -43,6 +45,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
     onSubmit: (values) => {
       console.log(...Object.values(values));
       submit(values.title, values.description, values.cost);
+      uploadFile();
       // submit(...Object.values(values));
     },
   });
@@ -75,6 +78,11 @@ export function CreateListingForm({ submit }: MyFormValues) {
         multiple
         onChange={onChange}
       /> */}
+      <input
+        type="file"
+        onChange={(e) => setFileImg(e.target.files[0])}
+        required
+      />
 
       {/* <input type="file" onChange={onChange} /> */}
 
