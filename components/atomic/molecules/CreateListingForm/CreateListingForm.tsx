@@ -10,7 +10,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
   const [fileImg, setFileImg] = useState<any>("");
 
   const uploadFile = async () => {
-    console.log("uplaoding to ipfs ");
+    console.log("uplaoding to ipfs  ");
     const formData = new FormData();
     formData.append("file", fileImg);
     const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";

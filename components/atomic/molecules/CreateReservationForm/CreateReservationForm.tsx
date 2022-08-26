@@ -27,7 +27,15 @@ export function CreateReservationForm({ submit, reservations }: MyFormValues) {
   });
 
   return (
-    <Box borderRadius={"lg"} boxShadow={"lg"} p={6}>
+    <Box
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      padding="10px"
+      boxShadow={"lg"}
+      p={6}
+    >
       <FormikProvider value={formik}>
         <Form>
           <label htmlFor="">Create a Reservation</label>

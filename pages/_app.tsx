@@ -18,6 +18,7 @@ import { ethers } from "ethers";
 import { SearchContext, SearchContextProvider } from "../context/searchContext";
 import { ToastContextProvider } from "../context/ToastContext";
 import { toast, ToastContainer } from "react-toastify";
+import Web3ConnectModal from "../components/atomic/organisms/Web3Modal/Web3ConnectModal";
 declare var window: any;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -118,10 +119,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               </Stack>
 
               <Stack direction="row" alignItems={"center"} spacing={4}>
-                <SiweLogin />
+                <Web3ConnectModal />
                 <ColorModeSwitcher />
               </Stack>
             </div>
+
             <Component
               methods={listingFactoryMethods}
               data={listings}

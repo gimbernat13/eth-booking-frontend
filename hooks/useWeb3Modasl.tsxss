@@ -1,0 +1,188 @@
+import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
+import { networkParams } from "../components/atomic/organisms/Web3Modal/networks";
+import { toHex } from "../components/atomic/organisms/Web3Modal/utils";
+
+import {
+  VStack,
+  Button,
+  Text,
+  HStack,
+  Select,
+  Input,
+  Box,
+} from "@chakra-ui/react";
+import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
+import { Tooltip } from "@chakra-ui/react";
+import Web3Modal from "web3modal";
+import { providerOptions } from "../components/atomic/organisms/Web3Modal/providerOptions";
+
+type Props = {};
+
+const useWeb3Modal = (props: Props) => {
+  const initialState = {
+    provider: null,
+    library: null,
+    account: null,
+    signature: null,
+    error: null,
+    chainId: null,
+    network: null,
+    message: null,
+    signedMessage: null,
+    verified: null,
+  };
+  const [error, setError] = useState<any>("");
+  const [account, setAccount] = useState<any>();
+
+  const [web3State, setWeb3State] = useState<any>({
+    initialState,
+  });
+
+  const web3Modal = new Web3Modal({
+    cacheProvider: true, // optional
+    providerOptions, // required
+  });
+
+  const connectWallet = async () => {
+    try {
+      const provider = await web3Modal.connect();
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+      setWeb3State((prevState: any) => ({
+        ...prevState,
+        provider: { provider },
+        library: { library },
+        chainId: network.chainId,
+      }));
+      if (accounts) setAccount(accounts[0]);
+      setWeb3State((prevState: any) => ({
+        ...prevState,
+        chainId: network.chainId,
+      }));
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const handleNetwork = (e: { target: { value: any } }) => {
+    const id = e.target.value;
+    setWeb3State((prevState: any) => ({
+      ...prevState,
+      network: Number(id),
+    }));
+  };
+
+  const handleInput = (e: { target: { value: any } }) => {
+    const msg = e.target.value;
+    setWeb3State((prevState: any) => ({
+      ...prevState,
+      message: msg,
+    }));
+  };
+
+  const switchNetwork = async () => {
+    try {
+      await web3State.library.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: toHex(web3State.network) }],
+      });
+    } catch (switchError: any) {
+      if (switchError.code === 4902) {
+        try {
+          await web3State.library.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [networkParams[toHex(network)]],
+          });
+        } catch (error) {
+          setError(error);
+        }
+      }
+    }
+  };
+
+  const signMessage = async () => {
+    if (!web3State.library) return;
+    try {
+      const signature = await web3State.library.provider.request({
+        method: "personal_sign",
+        params: [web3State.message, account],
+      });
+      setSignedMessage(message);
+      setSignature(signature);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const verifyMessage = async () => {
+    if (!web3State.library) return;
+    try {
+      const verify = await web3State.library.provider.request({
+        method: "personal_ecRecover",
+        params: [signedMessage, signature],
+      });
+
+      setVerified(verify === account.toLowerCase());
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const refreshState = () => {
+    setWeb3State((prevState: any) => ({
+      initialState,
+    }));
+  };
+
+  const disconnect = async () => {
+    await web3Modal.clearCachedProvider();
+    refreshState();
+  };
+
+  useEffect(() => {
+    if (web3Modal.cachedProvider) {
+      connectWallet();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (web3State.provider?.on) {
+      const handleAccountsChanged = (accounts) => {
+        console.log("accountsChanged", accounts);
+        if (accounts) setAccount(accounts[0]);
+      };
+
+      const handleChainChanged = (_hexChainId) => {
+        setWeb3State((prevState: any) => ({
+          ...prevState,
+          chainId: _hexChainId,
+        }));
+        setChainId(_hexChainId);
+      };
+
+      const handleDisconnect = () => {
+        console.log("disconnect", error);
+        disconnect();
+      };
+
+      web3State.provider.on("accountsChanged", handleAccountsChanged);
+      web3State.provider.on("chainChanged", handleChainChanged);
+      web3State.provider.on("disconnect", handleDisconnect);
+
+      return () => {
+        if (web3State.provider.removeListener) {
+          web3State.provider.removeListener(
+            "accountsChanged",
+            handleAccountsChanged
+          );
+          web3State.provider.removeListener("chainChanged", handleChainChanged);
+          web3State.provider.removeListener("disconnect", handleDisconnect);
+        }
+      };
+    }
+  }, [web3State.provider]);
+
+  return <div>useWeb3Modal</div>;
+};
