@@ -49,6 +49,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // =============== LISTING ==================================
   const listingFactoryMethods = {
+    async getListings() {
+      if (typeof window.ethereum !== "undefined") {
+        try {
+          const response = await listingFactoryContract?.getListings();
+          setListings(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
     async createListing(title: string, description: string, cost: number) {
       if (typeof window.ethereum !== "undefined") {
         try {

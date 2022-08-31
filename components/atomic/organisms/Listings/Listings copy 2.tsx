@@ -24,26 +24,16 @@ export const Listings = ({ listings }: Props) => {
   const filterListings = async () => {
     //Return a new Array (filter ) that chooses only items that have no reservations
     // Create submethod for checking availability
-
-    const filteredListings = await listings.reduce(async (listing) => {
-      const listingContract = getListingContract(await listing);
-      const compareReservations = async () => {
-        const reservations = await listingContract?.getAllReservations();
-        return !searchState.wantedDates.some((r: string) => {
-          return reservations.includes(r);
-        });
-      };
-      return compareReservations();
-    }, Promise.resolve({} as any));
-
-    const filteredListisngs = listings.filter((listing) => {
+    const filteredListings = listings.filter((listing) => {
       const listingContract = getListingContract(listing);
       const compareReservations = async () => {
         const reservations = await listingContract?.getAllReservations();
-        return !searchState.wantedDates.some((r: string) => {
+
+        !searchState.wantedDates.some((r: string) => {
           return reservations.includes(r);
         });
       };
+
       return compareReservations();
     });
 

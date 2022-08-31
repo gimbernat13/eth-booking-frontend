@@ -20,7 +20,6 @@ const MainGrid = styled.div`
 
 const Home: NextPage = (props: any) => {
   const { data: listings, methods: listingFactoryMethods } = props;
-  console.log("props are ", props);
   return (
     <>
       <HeroSection submit={listingFactoryMethods.createListing} />

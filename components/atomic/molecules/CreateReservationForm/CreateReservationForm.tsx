@@ -28,13 +28,13 @@ export function CreateReservationForm({ submit, reservations }: MyFormValues) {
 
   return (
     <Box
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      padding="10px"
-      boxShadow={"lg"}
-      p={6}
+      // maxW="sm"
+      // borderWidth="1px"
+      // borderRadius="lg"
+      // overflow="hidden"
+      // padding="10px"
+      // boxShadow={"lg"}
+      // p={6}
     >
       <FormikProvider value={formik}>
         <Form>

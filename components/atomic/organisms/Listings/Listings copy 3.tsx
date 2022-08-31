@@ -22,11 +22,23 @@ export const Listings = ({ listings }: Props) => {
   const addresses: string[] = [];
 
   const filterListings = async () => {
+    let values = ["another", "word", "here"];
+    values = await values.reduce(async (acc, v) => {
+      const result = await hasFourLetters(v);
+      // If our async method didn't return true, return the current list
+      // *without* this new entry
+      if (!result) {
+        return acc;
+      }
+      // Otherwise add this value to the list
+      return (await acc).concat(run);
+    }, []);
+
     //Return a new Array (filter ) that chooses only items that have no reservations
     // Create submethod for checking availability
 
     const filteredListings = await listings.reduce(async (listing) => {
-      const listingContract = getListingContract(await listing);
+      const listingContract = getListingContract(listing);
       const compareReservations = async () => {
         const reservations = await listingContract?.getAllReservations();
         return !searchState.wantedDates.some((r: string) => {
@@ -34,7 +46,7 @@ export const Listings = ({ listings }: Props) => {
         });
       };
       return compareReservations();
-    }, Promise.resolve({} as any));
+    });
 
     const filteredListisngs = listings.filter((listing) => {
       const listingContract = getListingContract(listing);
