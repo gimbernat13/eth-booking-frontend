@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { useContext } from "react";
 import styled from "styled-components";
@@ -50,6 +51,7 @@ export const Listings = ({ listings }: Props) => {
 
       compareReservations();
     });
+    const addresses: string[] = [];
 
     listings.forEach((address) => {
       const listingContract = getListingContract(address);
@@ -71,21 +73,26 @@ export const Listings = ({ listings }: Props) => {
 
       compareReservations();
     });
+    console.log("addresses", addresses);
     setAvailableListings(addresses);
   };
 
   React.useEffect(() => {
     filterListings();
-  }, [searchState]);
+  }, []);
 
   console.log("available ", availableListings);
   return (
-    <StyledListingCardGrid>
-      {!isLoading &&
-        availableListings.map((address: string, i: number) => (
-          <h1 key={address + i}>{i} amo la mierda negra</h1>
-        ))}
-    </StyledListingCardGrid>
+    <>
+      <Button onClick={() => filterListings()}> Filter listings </Button>
+
+      <StyledListingCardGrid>
+        {!isLoading &&
+          availableListings.map((address: string, i: number) => (
+            <h1 key={address + i}>{i} amo la mierda negra</h1>
+          ))}
+      </StyledListingCardGrid>
+    </>
   );
 };
 {

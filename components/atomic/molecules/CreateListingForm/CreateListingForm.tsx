@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { Input, Button, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
-
+import axios from "axios";
 interface MyFormValues {
   submit: (title: string, description: string, cost: number) => void;
 }
@@ -14,8 +14,6 @@ export function CreateListingForm({ submit }: MyFormValues) {
     const formData = new FormData();
     formData.append("file", fileImg);
     const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
-
-    console.log("bitch eis ", process.env.PINATA_API_KEY);
 
     try {
       const resFile = await fetch(url, {
@@ -30,10 +28,34 @@ export function CreateListingForm({ submit }: MyFormValues) {
       // const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
       const ImgHash = `ipfs://${resFile}`;
 
-      console.log("niggas love white pussi ", resFile.body);
+      console.log("niggas love white pussi ", resFile);
     } catch (error) {
       console.log(error);
     }
+  };
+  const pinFolder = async () => {
+    var data = new FormData();
+    for (const file of fileImg) {
+      data.append(`file`, file);
+    }
+    data.append("pinataOptions", '{"cidVersion": 1}');
+    data.append(
+      "pinataMetadata",
+      '{"name": "MyFile", "keyvalues": {"company": "Pinata"}}'
+    );
+    var config = {
+      method: "post",
+      url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+      headers: {
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI2NjdjMDU1Yy00ZGFmLTQ5MzYtOGU3NC0zNWFmNTI2MWI2ZTEiLCJlbWFpbCI6ImdpbWJlcm5hdDEzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJiMzM0YjUyYjAxOTI1MGVhMmE1ZiIsInNjb3BlZEtleVNlY3JldCI6ImRiYzhkZWY2YzQxZjE4ZGVlMzc3NzgzYWYzNzYxMTJhYjliZjY2MDVjZTE0MTQxYWQ4NGZhN2M4YTdhOGFkNWEiLCJpYXQiOjE2NjEyOTc0MzR9.JoDZ-w4yVB3ikj_ztvPNcOCQFiGTPWIthyW7H1KKk6U",
+      },
+      data: data,
+    };
+
+    const res = await axios(config);
+
+    console.log("bitch nigger response is ", res);
   };
 
   const formik = useFormik({
@@ -81,8 +103,9 @@ export function CreateListingForm({ submit }: MyFormValues) {
       /> */}
       <input
         type="file"
-        onChange={(e) => setFileImg(e.target.files[0])}
+        onChange={(e) => setFileImg(e.target.files)}
         required
+        multiple
       />
 
       {/* <input type="file" onChange={onChange} /> */}
