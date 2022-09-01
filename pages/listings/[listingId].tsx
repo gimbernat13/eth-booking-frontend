@@ -12,6 +12,7 @@ import { ListingOverview } from "../../components/atomic/molecules/ListingOvervi
 import { ListingPhotoGrid } from "../../components/atomic/molecules/ListingPhotoGrid/ListingPhotoGrid";
 import { ListingFeatures } from "../../components/atomic/molecules/ListingFeatures/ListingFeatures";
 import { CreateReservationForm } from "../../components/atomic/molecules/CreateReservationForm/CreateReservationForm";
+import Image from "next/image";
 
 type Props = {};
 declare let window: any;
@@ -118,65 +119,67 @@ const Listing = (props: Props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <br />
-      <br />
-      <br />
+    <>
+      {listingData && (
+        <div className={styles.container}>
+          <br />
+          <br />
+          <br />
 
-      <Heading>{listingData[0] && listingData[0]}</Heading>
-      <Text>{listingData[1] && listingData[1]} </Text>
-      <Box
-        mr={"6"}
-        display={"inline-block"}
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        maxHeight={"50vh"}
-        border={"1px solid gray"}
-        // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
-      >
-        <img
-          style={{ objectFit: "cover" }}
-          src="https://a0.muscache.com/im/pictures/miso/Hosting-34224785/original/25e8db0a-6c58-4a2c-8764-04a65765ee9e.jpeg?im_w=1200"
-          alt=""
-        />
-      </Box>
-      {/* <ListingPhotoGrid /> */}
-      <br />
-      {reservations?.map((res: string) => (
-        <Box
-          key={res}
-          p="6"
-          mr={"6"}
-          maxW="sm"
-          display={"inline-block"}
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          border={"1px solid gray"}
-          // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
-        >
-          <div key={res}>{res}</div>
-        </Box>
-      ))}
+          <Heading>{listingData[0] && listingData[0]}</Heading>
+          <Text>{listingData[1] && listingData[1]} </Text>
+          <Box
+            mr={"6"}
+            display={"inline-block"}
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            width={"100%"}
+            height={"50vh"}
+            border={"1px solid gray"}
+            backgroundImage={`https://ipfs.io/ipfs/${listingData[3]}`}
+            // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+          >
+         
+          </Box>
+          {/* <ListingPhotoGrid /> */}
+          <br />
+          {reservations?.map((res: string) => (
+            <Box
+              key={res}
+              p="6"
+              mr={"6"}
+              maxW="sm"
+              display={"inline-block"}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              border={"1px solid gray"}
+              // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+            >
+              <div key={res}>{res}</div>
+            </Box>
+          ))}
 
-      <StyledInfoGrid>
-        <div>
-          <Heading> {listingData.cost}</Heading>
-          {/* <Heading>Price : {ethers.BigNumber.from(listingData.cost).toNumber()}</Heading> */}
-          <ListingOverview />
-          <Divider colorScheme={"darkTheme"} />
-          <ListingFeatures />
+          <StyledInfoGrid>
+            <div>
+              <Heading> {listingData.cost}</Heading>
+              {/* <Heading>Price : {ethers.BigNumber.from(listingData.cost).toNumber()}</Heading> */}
+              <ListingOverview />
+              <Divider colorScheme={"darkTheme"} />
+              <ListingFeatures />
+            </div>
+
+            <div className="right">
+              <CreateReservationForm
+                reservations={reservations}
+                submit={listingFactoryMethods.createReservation}
+              />
+            </div>
+          </StyledInfoGrid>
         </div>
-
-        <div className="right">
-          <CreateReservationForm
-            reservations={reservations}
-            submit={listingFactoryMethods.createReservation}
-          />
-        </div>
-      </StyledInfoGrid>
-    </div>
+      )}
+    </>
   );
 };
 export default Listing;

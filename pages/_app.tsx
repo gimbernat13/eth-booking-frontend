@@ -60,15 +60,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     },
 
-    async createListing(title: string, description: string, cost: number) {
+    async createListing(
+      title: string,
+      description: string,
+      cost: number,
+      ipfsHash: string
+    ) {
       if (typeof window.ethereum !== "undefined") {
         try {
           const response = await listingFactoryContract?.createListing(
             title,
             description,
-            cost
+            cost,
+            ipfsHash
           );
+          console.log("ipfs", ipfsHash);
           handleCreateListing();
+          console.log(response);
         } catch (error) {
           console.log(error);
         }

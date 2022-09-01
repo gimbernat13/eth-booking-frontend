@@ -3,7 +3,12 @@ import { Input, Button, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 interface MyFormValues {
-  submit: (title: string, description: string, cost: number) => void;
+  submit: (
+    title: string,
+    description: string,
+    cost: number,
+    ipfsHash: string
+  ) => void;
 }
 
 export function CreateListingForm({ submit }: MyFormValues) {
@@ -27,6 +32,7 @@ export function CreateListingForm({ submit }: MyFormValues) {
 
         const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
         console.log(ImgHash);
+        return resFile.data.IpfsHash;
         //Take a look at your Pinata Pinned section, you will see a new file added to you list.
       } catch (error) {
         console.log("Error sending File to IPFS: ");
@@ -42,11 +48,11 @@ export function CreateListingForm({ submit }: MyFormValues) {
       cost: 0,
       photos: [],
     },
-    onSubmit: (values) => {
-      // console.log(...Object.values(values));
-      // submit(values.title, values.description, values.cost);
-      sendFilesToIPFS();
-      // submit(...Object.values(values));
+    onSubmit: async (values) => {
+      const ipfsHash = await sendFilesToIPFS();
+      // console.log("ipfshash", ipfsHash);
+
+      submit(values.title, values.description, values.cost, ipfsHash);
     },
   });
   return (
