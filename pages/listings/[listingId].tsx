@@ -50,6 +50,9 @@ const Listing = (props: Props) => {
 
   // FIXME: ABSTRACT TO HOOK
   async function initListingFactory() {
+    if (typeof window == "undefined") {
+      return;
+    }
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = useContract(
@@ -122,7 +125,23 @@ const Listing = (props: Props) => {
 
       <Heading>{listingData[0] && listingData[0]}</Heading>
       <Text>{listingData[1] && listingData[1]} </Text>
-      <ListingPhotoGrid />
+      <Box
+        mr={"6"}
+        display={"inline-block"}
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        maxHeight={"50vh"}
+        border={"1px solid gray"}
+        // boxShadow={"rgb(0 0 0 / 12%) 0px 6px 16px"}
+      >
+        <img
+          style={{ objectFit: "cover" }}
+          src="https://a0.muscache.com/im/pictures/miso/Hosting-34224785/original/25e8db0a-6c58-4a2c-8764-04a65765ee9e.jpeg?im_w=1200"
+          alt=""
+        />
+      </Box>
+      {/* <ListingPhotoGrid /> */}
       <br />
       {reservations?.map((res: string) => (
         <Box
