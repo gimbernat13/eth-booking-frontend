@@ -76,7 +76,7 @@ textarea {
 .DayPicker,
 .DateRangePicker_picker {
   border-radius: var(--border-radius) !important;
-  border: 1px solid lightgray;
+  border: 1px solid rgb(72, 72, 72);
 }
 
 .CalendarMonth {

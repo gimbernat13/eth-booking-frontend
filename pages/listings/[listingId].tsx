@@ -163,8 +163,8 @@ const Listing = (props: Props) => {
 
           <StyledInfoGrid>
             <div>
-              <Heading> {listingData.cost}</Heading>
-              {/* <Heading>Price : {ethers.BigNumber.from(listingData.cost).toNumber()}</Heading> */}
+              {/* <Heading> {listingData.cost}</Heading> */}
+              {/* <Heading>Price : {ethers.BigNumber.from(listingData[2]).toNumber()}</Heading> */}
               <ListingOverview />
               <Divider colorScheme={"darkTheme"} />
               <ListingFeatures />

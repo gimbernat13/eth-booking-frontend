@@ -4,6 +4,7 @@ import { Heading, Spacer, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { ChakraProvider } from "@chakra-ui/react";
 import "react-toastify/dist/ReactToastify.css";
+import listingFactory from "../eth/ListingFactory.json";
 
 import React, { useEffect } from "react";
 import { useWeb3 } from "../hooks/useWeb3";
@@ -41,8 +42,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   // FIXME: ABSTRACT TO HOOK
 
-  const handleCreateListing = async () => {
-    await listingFactoryContract?.on("CreateListing", () => {
+  const handleCreateListing = () => {
+    console.log("startin nig er ");
+    listingFactoryContract?.on("CreateListing", () => {
       console.log("Wow so smert, much thoughts, ingelegant!");
     });
   };
@@ -75,8 +77,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             ipfsHash
           );
           console.log("ipfs", ipfsHash);
+          console.log("res", response);
           handleCreateListing();
-          console.log(response);
+          listingFactoryMethods.getListings();
         } catch (error) {
           console.log(error);
         }

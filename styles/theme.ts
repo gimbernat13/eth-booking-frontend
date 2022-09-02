@@ -40,12 +40,21 @@ export const theme = extendTheme({
           "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
         )(props),
       },
-      // ".CalendarDay": {
-      //   bg: mode(
-      //     "white",
-      //     "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
-      //   )(props),
-      // },
+      ".CalendarDay__selected": {
+        bg: " #00a699 !important",
+      },
+      ".CalendarDay__selected_span": {
+        bg: "#66e2da !important",
+      },
+      ".CalendarDay__blocked_calendar": {
+        bg: "lightgray !important",
+      },
+      ".CalendarDay": {
+        bg: mode(
+          "white",
+          "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
+        )(props),
+      },
       ".DateRangePickerInput": {
         bg: mode(
           "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #F6F6F6",
@@ -64,8 +73,11 @@ export const theme = extendTheme({
           "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
         )(props),
       },
-      ".css-134p2gk": {
-        // bg: mode("white", "black")(props),
+      ".DayPickerNavigation_button": {
+        bg: mode(
+          "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #F6F6F6",
+          "radial-gradient(50% 50% at 50% 50%, rgba(183, 120, 255, 0.062) 0%, rgba(183, 120, 255, 0.082) 100%), #000000 "
+        )(props),
       },
     }),
   },
