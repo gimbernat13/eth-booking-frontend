@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Grid,
@@ -9,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import React, {useContext} from 'react';
 import styled from 'styled-components';
+import {useAccount} from 'wagmi';
 import {SearchContext} from '../../../../context/searchContext';
 import ImageCarousel from '../../molecules/FeaturedListingCarousel/FeaturedListingCarousel';
 import {CreateListingModal} from '../CreateListingModal/CreateListingModal';
@@ -46,6 +49,7 @@ const Content = styled.div`
 export const HeroSection = ({}: Props) => {
   const {colorMode} = useColorMode();
   const {state} = useContext(SearchContext);
+  const {isConnected} = useAccount();
 
   return (
     <Bg bg={state.featuredListing}>
@@ -60,6 +64,12 @@ export const HeroSection = ({}: Props) => {
         >
           <Box pt={'1rem'} gap={'11rem'} maxWidth="500px">
             {/* <Text>amo la mierda  { state.featuredListing }</Text> */}
+            {!isConnected && (
+              <Alert margin={'20px 0'} borderRadius={'12px'} status="warning">
+                <AlertIcon />
+                Connect to a Wallet and Goerli Testnet 😊
+              </Alert>
+            )}
             <Heading fontWeight={'bold'} fontSize={'2em'}>
               On Chain Booking
             </Heading>
