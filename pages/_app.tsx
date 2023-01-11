@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import dotenv from 'dotenv';
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import {ChakraProvider} from '@chakra-ui/react';
@@ -18,7 +17,6 @@ import {theme} from '../styles/theme';
 import {SearchContextProvider} from '../context/searchContext';
 import ResponsiveNavbar from '../components/atomic/molecules/ResponsiveNavbar/ResponsiveNavBar';
 import {Layout} from '../components/atomic/atoms/Layout/Layout';
-dotenv.config();
 
 const API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_TESTNET_KEY ?
   process.env.NEXT_PUBLIC_ALCHEMY_TESTNET_KEY :

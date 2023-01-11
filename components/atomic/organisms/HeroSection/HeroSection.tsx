@@ -5,7 +5,6 @@ import {
   Grid,
   Heading,
   HStack,
-  Text,
   useColorMode,
 } from '@chakra-ui/react';
 import React, {useContext} from 'react';
