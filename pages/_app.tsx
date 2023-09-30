@@ -9,7 +9,6 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 import {getDefaultWallets} from '@rainbow-me/rainbowkit';
 import {configureChains, createClient, goerli, WagmiConfig} from 'wagmi';
-import {mainnet, polygon, optimism, arbitrum, localhost} from 'wagmi/chains';
 import {alchemyProvider} from 'wagmi/providers/alchemy';
 import {publicProvider} from 'wagmi/providers/public';
 import React from 'react';
