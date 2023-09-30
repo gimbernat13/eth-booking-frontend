@@ -23,7 +23,7 @@ const API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_TESTNET_KEY ?
   '';
 
 const {chains, provider} = configureChains(
-    [mainnet, polygon, optimism, arbitrum, localhost, goerli],
+    [goerli],
     [alchemyProvider({apiKey: API_KEY}), publicProvider()],
 );
 const {connectors} = getDefaultWallets({
